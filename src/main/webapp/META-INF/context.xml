@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/TSP">
+  <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="20" maxIdle="10" maxWait="-1" name="mysql" password="12345" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/tsp?zeroDateTimeBehavior=convertToNull" username="admin"/>
+</Context>
