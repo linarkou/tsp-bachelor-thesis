@@ -74,7 +74,8 @@ public class StockDao
         List<Stock> resultList = em.createQuery("select s from Stock s order by id", Stock.class).getResultList();
         return resultList;
     }
-
+    
+    @Transactional
     public void removeStockById(Long id)
     {
         Stock res = findStockById(id);

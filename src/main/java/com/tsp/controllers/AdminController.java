@@ -14,6 +14,7 @@ import com.tsp.model.Driver;
 import com.tsp.model.Order;
 import com.tsp.model.Stock;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -31,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping(value = "/admin")
+@RolesAllowed(value = "ROLE_ADMIN")
 public class AdminController
 {
     @Autowired

@@ -33,6 +33,8 @@ public class Order
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate date;
     
+    
+    private boolean inRoute = false;
     /**
      * Описание заказа
      */
@@ -89,6 +91,12 @@ public class Order
     public void cancel()
     {
         this.status = "Отменен";
+        this.inRoute = true;
+    }
+    
+    public boolean isCompleted()
+    {
+        return this.status.equals("Выполнен");
     }
 
     /**
@@ -121,6 +129,19 @@ public class Order
     public void setDate(LocalDate date)
     {
         this.date = date;
+    }
+
+    /**
+     * @return the inRoute
+     */
+    public boolean isInRoute()
+    {
+        return inRoute;
+    }
+    
+    public void putToRoute()
+    {
+        this.inRoute = true;
     }
     
 }

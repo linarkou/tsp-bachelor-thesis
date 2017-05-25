@@ -13,7 +13,7 @@
         
         <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
         
-        <title>Ваш маршрут</title>
+        <title>Построение маршрута</title>
         
         <script type="text/javascript">
             var lengths = [];
@@ -24,7 +24,7 @@
                     zoom: 11,
                 });
 
-                ymaps.route([${route}], {
+                ymaps.route([${places}], {
                     mapStateAutoApply: true
                 }).then(function (route) {
                     myMap.geoObjects.add(route);
@@ -46,7 +46,7 @@
         <div class="loading">
             Идет построение маршрута<br>Подождите пожалуйста...
         </div>
-        <form method='post' action="${contextPath}/route" id="kostil">
+        <form method='post' action="${contextPath}/driver/buildroute" id="kostil">
             <input type="hidden" id="lengths" name="lengths" />
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
@@ -54,39 +54,3 @@
         <input type="hidden" id="myMap" style="width: 100px; height: 100px;"/>
     </body>
 </html>
-
-
-<!--$.ajax({
-                    type:'post',
-                    url:'${pageContext.request.contextPath}/route.do',
-                    data: JSON.stringify({ lengths: lengths }),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function(data){alert(data);},
-                    failure: function(errMsg) {
-                        alert(errMsg);
-                    }
-                });-->
-
-<!--var lengths = [];
-        ymaps.ready();
-        function initMap()
-        {     
-            var myMap = new ymaps.Map ('myMap', {
-                center: [0, 0],
-                zoom: 11,
-                controls: ["default"]
-            });
-            
-            ymaps.route([${route}], {
-                mapStateAutoApply: true
-            }).then(function (route) {
-                myMap.geoObjects.add(route);
-                
-                route.getPaths().each(function (path) {
-                    lengths.push(path.properties.getAll().RouterRouteMetaData.length);
-                });
-            }, function (err) {
-                alert('Попробуйте зайти позже');
-            }, this);
-        }-->

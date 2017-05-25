@@ -51,6 +51,11 @@ public class OrderDao
         return order;
     }
     
+    public List<Order> findUntakenOrdersByDate(LocalDate date)
+    {
+        return em.createQuery("select c from Order c where date = :date AND inRoute = FALSE",Order.class).setParameter("date", date).getResultList();
+    }
+    
     public List<Order> findAllOrders()
     {
         return em.createQuery("select c from Order c order by id",Order.class).getResultList();

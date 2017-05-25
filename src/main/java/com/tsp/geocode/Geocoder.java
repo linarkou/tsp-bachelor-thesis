@@ -56,6 +56,7 @@ public class Geocoder
             JsonArray jarray = jobject.getAsJsonArray("featureMember");
             jobject = jarray.get(0).getAsJsonObject().getAsJsonObject("GeoObject").getAsJsonObject("metaDataProperty").getAsJsonObject("GeocoderMetaData");
             name = jobject.get("text").toString();
+            name = name.substring(1, name.length()-1);
         } catch (Exception ex)
         {
             Logger.getLogger(Geocoder.class.getName()).log(Level.SEVERE, "Unknown exception :D", ex);
@@ -83,6 +84,7 @@ public class Geocoder
                 location.setLat(Double.valueOf(split[1].replaceAll("[^\\d\\.]","")));
             }
             name = jobject.getAsJsonObject("metaDataProperty").getAsJsonObject("GeocoderMetaData").get("text").toString();
+            name = name.substring(1, name.length()-1);
         } catch (Exception ex)
         {
             Logger.getLogger(Geocoder.class.getName()).log(Level.SEVERE, "Bad URL or No place with this address: "+address, ex);

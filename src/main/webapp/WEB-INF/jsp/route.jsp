@@ -7,7 +7,6 @@
         <title>Ваш маршрут</title>
     </head>
     <body>
-        <h1>${name}</h1>
         <input id="routelength">
         <script type="text/javascript">
         ymaps.ready(initMap);
@@ -23,7 +22,6 @@
             ymaps.route([${route}]).then(function (route) {
                 route.options.set("mapStateAutoApply", true);
                 myMap.geoObjects.add(route);
-                document.getElementById("routelength").value = route.getLength();
             }, function (err) {
                 alert('Невозможно построить маршрут');
             }, this);

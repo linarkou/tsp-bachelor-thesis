@@ -35,6 +35,17 @@ public class DriverDao
         em.persist(driver);
     }
     
+    public List<Route> getRoutesByUsername(String username)
+    {
+        Driver dr = this.findByUsername(username);
+        return dr.getRoutes();
+    }
+    
+    public List<Route> getRoutesByDriver(Driver dr)
+    {
+        return dr.getRoutes();
+    }
+    
     public List<Driver> getAllDrivers()
     {
         List<Driver> resultList = em.createQuery("select d from Driver d order by id", Driver.class).getResultList();

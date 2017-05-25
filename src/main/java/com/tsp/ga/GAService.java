@@ -33,7 +33,7 @@ public class GAService
     /**
      * Возвращает строку-путь, который проходит между каждыми двумя точками
      * 
-     * Например, для точек a,b,c строится в виде: 'a','b','a','c','a','b','c','b'.
+     * Например, для точек a,b,c строится в виде: |'a','b','a','c','a',|'b','c','b'.
      * Результат используется для вычисления длин путей от каждого клиента к каждому (и к складу) в YMAPS API.
      * 
      * @param places
@@ -51,12 +51,12 @@ public class GAService
         {
             for (int j = i+1; j < n; ++j)
             {
-                sb.append(places.get(i));
+                sb.append(places.get(i).getAddress());
                 sb.append(separator);
-                sb.append(places.get(j));
+                sb.append(places.get(j).getAddress());
                 sb.append(separator);
             }
-            sb.append(places.get(i));
+            sb.append(places.get(i).getAddress());
             sb.append(i != n-2 ? separator : "\'");
         }
         return sb.toString();
@@ -68,27 +68,27 @@ public class GAService
      * По списку клиентов и длинам между ними находит кратчайший маршрут
      * 
      * @param stock Склад, откуда развозить товары
-     * @param orders Список клиентов
+     * @param orders Список заказов
      * @param lengths Длина путей
      * @return 
      */
-    public static List<Place> getRoute(Stock stock, List<Order> orders, String lengths)
+    public static List<Order> getOrdersAsRoute(Stock stock, List<Order> orders, String lengths)
     {
         List<Place> sourcePlaces = new ArrayList<Place>();
         sourcePlaces.add(stock.getPlace());
         sourcePlaces.addAll(orders.stream().map(x -> x.getPlace()).collect(Collectors.toList()));
         ArrayList<ArrayList<Double>> dist = parseLengths(lengths, sourcePlaces.size());
         ArrayList<LatLng> locations = new ArrayList<LatLng>();
-        //locations.add(stock.getLocation());
+        locations.add(stock.getPlace().getLocation());
         for (Order or : orders)
             locations.add(or.getPlace().getLocation());
         GA ga = new GA(dist, locations);
-        List<Integer> order = ga.run();
-        List<Place> resultedRoute = new ArrayList<>(sourcePlaces.size());
+        List<Integer> order = ga.run(); //итоговый порядок прохода, начинается с 0 и заканачивается в 0
+        List<Order> resultedRoute = new ArrayList<>(sourcePlaces.size());
         log.debug(" RESULTED ORDER:" + order.toString());
-        for (int i = 0; i < order.size(); ++i)
+        for (int i = 1; i < order.size()-1; ++i)
         {
-            resultedRoute.add(sourcePlaces.get(order.get(i)));
+            resultedRoute.add(orders.get(order.get(i)-1));
         }
         return resultedRoute;
     }

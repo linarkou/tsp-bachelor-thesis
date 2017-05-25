@@ -40,7 +40,9 @@
         </div>
 
     </form>
-
+        <p class="center">
+            Если вы являетесь новым клиентом, то Вам необходимо <a href="${contextPath}/client/registration">зарегистрироваться</a>
+        </p>
 </div>
 <!-- /container -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

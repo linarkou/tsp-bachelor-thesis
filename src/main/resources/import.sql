@@ -42,3 +42,9 @@ INSERT INTO roles VALUES (2, 'ROLE_DRIVER');
 INSERT INTO roles VALUES (3, 'ROLE_CLIENT');
 
 INSERT INTO user_roles VALUES (0, 1);
+
+INSERT INTO place (lat, lng, address) VALUES (54.742876, 55.960542, 'Россия, Республика Башкортостан, Уфа, улица Цюрупы, 149');
+INSERT INTO stock (id, place_lat, place_lng) VALUES (1, 54.742876, 55.960542);
+
+INSERT INTO driver (id, fullname, password, username, stock_id) VALUES (1, 'Абзалтдинов Линар', '$2a$11$74tnBEdYox.r4Fx1rSfYBugzW2cOvtgwJRX4U37tpFVfCLPpYEkx6', 'linar', 1);
+INSERT INTO user_roles VALUES (1, 2);

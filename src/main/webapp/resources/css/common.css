@@ -17,6 +17,13 @@ body {
     padding: 15px;
     margin: 0 auto;
 }
+.center {
+    font-size: 18;
+    text-align: center;
+    max-width: 400px;
+    padding: 15px;
+    margin: 0 auto;
+}
 
 .form-signin .form-signin-heading,
 .form-signin .checkbox {

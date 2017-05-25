@@ -5,11 +5,9 @@
  */
 package com.tsp.model;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+import org.joda.time.LocalDate;
 
 /**
  *
@@ -25,20 +23,22 @@ public class Route
     private Long id;
     
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Place> places;   
+    private List<Order> orders;   
     
     @ManyToOne
     private Driver driver;
     
     private LocalDate date;
     
+    private boolean completed = false;
+    
     public Route() { }
     
-    public Route(Driver driver, LocalDate date, List<Place> places) 
+    public Route(Driver driver, LocalDate date, List<Order> orders) 
     { 
         this.driver = driver;
         this.date = date;
-        this.places = places;
+        this.orders = orders;
     }
     
     public Long getId()
@@ -54,35 +54,51 @@ public class Route
     @Override
     public String toString()
     {
-        if (places.isEmpty())
+        if (orders.isEmpty())
             return "Empty route";
         
         StringBuilder sb = new StringBuilder("Date of route: " + this.getDate() + "\n\'");
-        for (int i = 0; i < places.size(); ++i)
+        for (int i = 0; i < orders.size(); ++i)
         {
-            sb.append(places.get(i));
-            if (i != places.size()-1)
+            sb.append(orders.get(i));
+            if (i != orders.size()-1)
                 sb.append("\', \'");
             else
                 sb.append("\'");
         }
         return sb.toString();
     }
-
-    /**
-     * @return the places
-     */
-    public List<Place> getPlaces()
+    
+    public String toStringForYMaps()
     {
-        return places;
+        StringBuilder sb = new StringBuilder("\'");
+        sb.append(this.driver.getStock().getPlace()).append("\', \'");
+        for (int i = 0; i < orders.size(); ++i)
+        {
+            sb.append(orders.get(i).getPlace());
+            if (i == orders.size()-1)
+                sb.append("\'");
+            else
+                sb.append("\', \'");
+        }
+        
+        return sb.toString();
     }
 
     /**
-     * @param places the places to set
+     * @return the orders
      */
-    public void setPlaces(List<Place> places)
+    public List<Order> getOrders()
     {
-        this.places = places;
+        return orders;
+    }
+
+    /**
+     * @param orders the orders to set
+     */
+    public void setOrders(List<Order> orders)
+    {
+        this.orders = orders;
     }
 
     /**
@@ -115,5 +131,22 @@ public class Route
     public void setDate(LocalDate date)
     {
         this.date = date;
+    }
+
+    /**
+     * @return the completed
+     */
+    public boolean isCompleted()
+    {
+        return completed;
+    }
+    
+    public void complete()
+    {
+        this.completed = true;
+        for (Order o : orders)
+        {
+            o.complete();
+        }
     }
 }
