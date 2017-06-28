@@ -30,6 +30,9 @@ public class Stock
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Driver> drivers;
     
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Order> orders;
+    
     @Id
     @GeneratedValue
     private Long id;
@@ -83,6 +86,22 @@ public class Stock
     public void setDrivers(List<Driver> drivers)
     {
         this.drivers = drivers;
+    }
+
+    /**
+     * @return the orders
+     */
+    public List<Order> getOrders()
+    {
+        return orders;
+    }
+
+    /**
+     * @param orders the orders to set
+     */
+    public void setOrders(List<Order> orders)
+    {
+        this.orders = orders;
     }
     
 }

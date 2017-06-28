@@ -24,7 +24,7 @@ public class Driver extends User
     @ManyToOne
     private Stock stock;
     
-    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Route> routes;
     
     public Driver()

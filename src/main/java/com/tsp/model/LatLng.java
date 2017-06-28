@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Embeddable
 //@Entity
 //@Table(name = "LatLng")
-public class LatLng implements Serializable{
+public class LatLng implements Serializable {
 
   /**
    * The latitude of this location.
@@ -45,6 +45,10 @@ public class LatLng implements Serializable{
   public String toUrlValue() {
     // Enforce Locale to English for double to string conversion
     return String.format(Locale.ENGLISH, "%.8f,%.8f", getLat(), getLng());
+  }
+  
+  public String toLngLat() {
+       return String.format(Locale.ENGLISH, "%.8f,%.8f", getLng(), getLat());
   }
 
     /**
@@ -91,5 +95,16 @@ public class LatLng implements Serializable{
             return true;
         else
             return false;
+    }
+    
+    public double haversineDist(LatLng ll2) {
+        double dLat = Math.toRadians(ll2.lat - lat);
+        double dLon = Math.toRadians(ll2.lng - lng);
+        double lat1 = Math.toRadians(this.lat);
+        double lat2 = Math.toRadians(ll2.lat);
+ 
+        double a = Math.pow(Math.sin(dLat / 2),2) + Math.pow(Math.sin(dLon / 2),2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        return 6372.8 * c;
     }
 }

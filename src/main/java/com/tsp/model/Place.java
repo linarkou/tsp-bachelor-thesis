@@ -75,4 +75,9 @@ public class Place
         Place p = (Place)o;
         return this.getLocation().equals(p);
     }
+    
+    public String toCSV()
+    {
+        return this.getLocation().getLat() + ";" + this.getLocation().getLng() + ";" + address;
+    }
 }

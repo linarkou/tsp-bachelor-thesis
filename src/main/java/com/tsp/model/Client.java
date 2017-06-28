@@ -9,9 +9,11 @@ import javax.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- *
+ * NOT USED
+ * 
  * @author Linar Abzaltdinov
  * @version 1.0
+ * 
  */
 @Entity
 @Table(name="Client")

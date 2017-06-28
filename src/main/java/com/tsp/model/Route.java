@@ -23,6 +23,11 @@ public class Route
     private Long id;
     
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "route_order", joinColumns = {
+			@JoinColumn(name = "route_id", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "order_id",
+					nullable = false, updatable = false, unique = true) })
+    @OrderColumn(name="ORDER_IN_ROUTE")
     private List<Order> orders;   
     
     @ManyToOne
@@ -54,7 +59,7 @@ public class Route
     @Override
     public String toString()
     {
-        if (orders.isEmpty())
+        if (orders == null || orders.isEmpty())
             return "Empty route";
         
         StringBuilder sb = new StringBuilder("Date of route: " + this.getDate() + "\n\'");
@@ -76,10 +81,23 @@ public class Route
         for (int i = 0; i < orders.size(); ++i)
         {
             sb.append(orders.get(i).getPlace());
-            if (i == orders.size()-1)
-                sb.append("\'");
-            else
-                sb.append("\', \'");
+            sb.append("\', \'");
+        }
+        sb.append(this.driver.getStock().getPlace()).append("\'");
+        return sb.toString();
+    }
+    
+    public String toStringForYNavi()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("lat_from=").append(this.driver.getStock().getPlace().getLocation().getLat());
+        sb.append("&lon_from=").append(this.driver.getStock().getPlace().getLocation().getLng());
+        sb.append("&lat_to=").append(orders.get(orders.size()-1).getPlace().getLocation().getLat());
+        sb.append("&lon_to=").append(orders.get(orders.size()-1).getPlace().getLocation().getLng());
+        for (int i = 0; i < orders.size(); ++i)
+        {
+            sb.append("&lat_via_"+i+"=").append(orders.get(i).getPlace().getLocation().getLat());
+            sb.append("&lon_via_"+i+"=").append(orders.get(i).getPlace().getLocation().getLng());
         }
         
         return sb.toString();

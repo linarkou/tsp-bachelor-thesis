@@ -86,6 +86,7 @@ public class Order
     public void complete()
     {
         this.status = "Выполнен";
+        this.inRoute = true;
     }
     
     public void cancel()
