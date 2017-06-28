@@ -12,6 +12,7 @@ import com.tsp.service.DriverServiceImpl;
 import com.tsp.service.SecurityService;
 import com.tsp.service.UserService;
 import com.tsp.validator.UserValidator;
+import java.security.Principal;
 import java.util.Map;
 import javax.annotation.security.RolesAllowed;
 import org.slf4j.Logger;
@@ -77,21 +78,13 @@ public class UserController {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            log.error("!!!ERRORS!!!");
-            for (Map.Entry<String,Object> a : bindingResult.getModel().entrySet()) {
-                log.error("!!!ERROR!!!"+a.getKey() + "/");
-                if (a.getValue() instanceof org.springframework.validation.BeanPropertyBindingResult)
-                {
-                    BeanPropertyBindingResult br = (BeanPropertyBindingResult) a.getValue();
-                    for (ObjectError e : br.getAllErrors())
-                        log.error("!!!ERROR!!! "+e.toString());
-                }
-            }
+            log.error("Error in driver registration");
             model.addAttribute("userClass", Driver.class.getCanonicalName());
             model.addAttribute("stocks", stockDao.getAllStocks());
             return "registration";
         }
         driverService.save(userForm);
+        log.error("Driver " + userForm.getUsername() + " succesfully registered");
         return "redirect:/admin/drivers";
     }
     
@@ -100,16 +93,6 @@ public class UserController {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            log.error("!!!ERRORS!!!");
-            for (Map.Entry<String,Object> a : bindingResult.getModel().entrySet()) {
-                log.error("!!!ERROR!!!"+a.getKey() + "/");
-                if (a.getValue() instanceof org.springframework.validation.BeanPropertyBindingResult)
-                {
-                    BeanPropertyBindingResult br = (BeanPropertyBindingResult) a.getValue();
-                    for (ObjectError e : br.getAllErrors())
-                        log.error("!!!ERROR!!! "+e.toString());
-                }
-            }
             model.addAttribute("userClass", Client.class.getCanonicalName());
             return "registration";
         }
@@ -123,6 +106,7 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         if (error != null) {
+            log.info("login failed");
             model.addAttribute("error", "Имя пользователя или пароль неверны.");
         }
         
@@ -131,5 +115,11 @@ public class UserController {
         }
 
         return "login";
+    }
+    
+    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
+    public String welcome(Model model, Principal principal) {
+        log.info(principal.getName() + " logged in");
+        return "welcome";
     }
 }
