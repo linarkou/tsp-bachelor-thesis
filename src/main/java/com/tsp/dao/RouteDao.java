@@ -6,12 +6,16 @@
 package com.tsp.dao;
 
 import com.tsp.model.Driver;
+import com.tsp.model.Order;
 import com.tsp.model.Route;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,14 +27,31 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RouteDao
 {
+    Logger log = LoggerFactory.getLogger(RouteDao.class);
+    
     @PersistenceContext
     EntityManager em;
     
     public RouteDao() {}
     
-    public void saveRoute(Route r)
+    @Transactional
+    public boolean saveRoute(Route r)
     {
-        em.persist(r);
+        try {
+            em.persist(r);
+            for (Order o : this.getOrdersOfRoute(r))
+                o.putToRoute();
+            return true;
+        } catch (Exception ex)
+        {
+            log.warn(ex.getMessage());
+            return false;
+        }
+    }
+    
+    public List<Order> getOrdersOfRoute(Route r)
+    {
+        return em.createQuery("select o from Route r LEFT JOIN r.orders o where r.id = :id", Order.class).setParameter("id", r.getId()).getResultList();
     }
     
     public Route getUncompletedRouteByDriver(Driver dr)
@@ -43,6 +64,21 @@ public class RouteDao
         } catch (NonUniqueResultException nure) {
             return null; 
         } 
+    }
+    
+    public Route findById(Long id)
+    {
+        return em.find(Route.class, id);
+    }
+    
+    public List<Route> findRouteByDriver(Driver driver)
+    {
+        return em.createQuery("select r FROM Route r where r.driver = :driver", Route.class).setParameter("driver", driver).getResultList();
+    }
+    
+    public void complete(Long id)
+    {
+        this.findById(id).complete();
     }
     
 }
