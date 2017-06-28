@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" pkg="com.tsp.model" v="4.2.4" rws="_149822269055543" cws="_149822269055543" sm="false" xs="false" id="_14982226901081" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
+    <jpa:entity compositePrimaryKeyClass="UserPK" abs="false" class="User" v="true" xre="false" m="false" rootElement="_14982226901081" id="_14982226901496">
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="username" ft="false" id="_14982226901508">
+                <jpa:column name="username" unique="false" nullable="true" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" name="password" ft="false" id="_14982226901509">
+                <jpa:column name="password" unique="false" nullable="true" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" name="fullName" ft="false" id="_149822269015112">
+                <jpa:column name="fullname" unique="false" nullable="true" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:many-to-many own="true" collection-type="java.util.Set" connected-entity-id="_149822269023027" connected-attribute-id="_149822269023030" v="true" name="roles" ft="false" id="_149822269015011">
+                <jpa:join-table name="user_roles">
+                    <jpa:join-column name="user_id" unique="false" nullable="true" insertable="true" updatable="true"/>
+                    <jpa:inverse-join-column name="role_id" unique="false" nullable="true" insertable="true" updatable="true"/>
+                </jpa:join-table>
+            </jpa:many-to-many>
+            <jpa:transient attribute-type="String" v="true" name="confirmPassword" ft="false" id="_149822269015010"/>
+            <jpa:id attribute-type="Long" v="true" name="id" ft="false" id="_14982226901507">
+                <jpa:generated-value strategy="TABLE"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="users"/>
+        <jpa:inheritance strategy="TABLE_PER_CLASS"/>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="ClientPK" abs="false" class="Client" superclassId="_14982226901496" v="true" xre="false" m="false" rootElement="_14982226901081" id="_14982226901252">
+        <jpa:attributes>
+            <jpa:basic attribute-type="Long" v="true" name="phone" ft="false" id="_14982226901283"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_149822269019516" v="true" name="place" ft="false" id="_14982226901294"/>
+            <jpa:one-to-many own="true" collection-type="java.util.List" connected-entity-id="_149822269030936" fetch="EAGER" v="true" name="orders" ft="false" id="_14982226901345"/>
+        </jpa:attributes>
+        <jpa:table name="Client"/>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="DriverPK" abs="false" class="Driver" superclassId="_14982226901496" v="true" xre="false" m="false" rootElement="_14982226901081" id="_149822269017713">
+        <jpa:attributes>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_149822269025031" connected-attribute-id="_149822269025034" v="true" name="stock" ft="false" id="_149822269017714"/>
+            <jpa:one-to-many own="false" collection-type="java.util.List" connected-entity-id="_149822269021121" connected-attribute-id="_149822269021724" fetch="EAGER" v="true" name="routes" ft="false" id="_149822269017715">
+                <jpa:cascade>
+                    <jpa:cascade-all/>
+                </jpa:cascade>
+            </jpa:one-to-many>
+        </jpa:attributes>
+        <jpa:table name="Driver"/>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyType="EMBEDDEDID" compositePrimaryKeyClass="PlacePK" abs="false" class="Place" v="true" xre="false" m="false" rootElement="_14982226901081" id="_149822269019516">
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="address" ft="false" id="_149822269019618"/>
+            <jpa:id attribute-type="double" v="true" name="lat" ft="false" id="_149822269019619"/>
+            <jpa:id attribute-type="double" v="true" name="lng" ft="false" id="_149822269019620"/>
+            <jpa:embedded-id v="true" name="location" ft="false" id="_149822269019517"/>
+        </jpa:attributes>
+        <jpa:table name="Place"/>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="RoutePK" abs="false" class="Route" v="true" xre="false" m="false" rootElement="_14982226901081" id="_149822269021121">
+        <jpa:attributes>
+            <jpa:basic attribute-type="org.joda.time.LocalDate" v="true" name="date" ft="false" id="_149822269021725"/>
+            <jpa:basic attribute-type="boolean" v="true" name="completed" ft="false" id="_149822269021726"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_149822269017713" connected-attribute-id="_149822269017715" v="true" name="driver" ft="false" id="_149822269021724"/>
+            <jpa:many-to-many own="true" collection-type="java.util.List" connected-entity-id="_149822269030936" fetch="EAGER" v="true" name="orders" ft="false" id="_149822269021223">
+                <jpa:join-table name="route_order">
+                    <jpa:join-column name="route_id" unique="false" nullable="false" insertable="true" updatable="false"/>
+                    <jpa:inverse-join-column name="order_id" unique="true" nullable="false" insertable="true" updatable="false"/>
+                </jpa:join-table>
+                <jpa:oc n="ORDER_IN_ROUTE" nu="true" in="true" up="true"/>
+            </jpa:many-to-many>
+            <jpa:id attribute-type="Long" v="true" name="id" ft="false" id="_149822269021222">
+                <jpa:generated-value/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="Route"/>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="RolePK" abs="false" class="Role" v="true" xre="false" m="false" rootElement="_14982226901081" id="_149822269023027">
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="name" ft="false" id="_149822269023029">
+                <jpa:column name="name" unique="false" nullable="true" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:many-to-many own="false" collection-type="java.util.Set" connected-entity-id="_14982226901496" connected-attribute-id="_149822269015011" v="true" name="users" ft="false" id="_149822269023030"/>
+            <jpa:id attribute-type="Long" v="true" name="id" ft="false" id="_149822269023028">
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="roles"/>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="StockPK" abs="false" class="Stock" v="true" xre="false" m="false" rootElement="_14982226901081" id="_149822269025031">
+        <jpa:attributes>
+            <jpa:one-to-many own="false" collection-type="java.util.List" connected-entity-id="_149822269017713" connected-attribute-id="_149822269017714" fetch="LAZY" v="true" name="drivers" ft="false" id="_149822269025034">
+                <jpa:cascade>
+                    <jpa:cascade-all/>
+                </jpa:cascade>
+            </jpa:one-to-many>
+            <jpa:one-to-many own="true" collection-type="java.util.List" connected-entity-id="_149822269030936" v="true" name="orders" ft="false" id="_149822269025635">
+                <jpa:cascade>
+                    <jpa:cascade-all/>
+                </jpa:cascade>
+            </jpa:one-to-many>
+            <jpa:one-to-one own="true" primaryKey="false" connected-entity-id="_149822269019516" v="true" name="place" ft="false" id="_149822269025033">
+                <jpa:join-column name="place_lat" rc="lat" unique="false" nullable="true" insertable="true" updatable="true"/>
+                <jpa:join-column name="place_lng" rc="lng" unique="false" nullable="true" insertable="true" updatable="true"/>
+            </jpa:one-to-one>
+            <jpa:id attribute-type="Long" v="true" name="id" ft="false" id="_149822269025032">
+                <jpa:generated-value/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="Stock">
+            <jpa:unique-constraint>
+                <jpa:column-name>place_lat</jpa:column-name>
+                <jpa:column-name>place_lng</jpa:column-name>
+            </jpa:unique-constraint>
+        </jpa:table>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="OrderPK" abs="false" class="Order" v="true" xre="false" m="false" rootElement="_14982226901081" id="_149822269030936">
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="status" ft="false" id="_149822269030939">
+                <jpa:column name="status" unique="false" nullable="true" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" name="description" ft="false" id="_149822269030940"/>
+            <jpa:basic attribute-type="org.joda.time.LocalDate" v="true" name="date" ft="false" id="_149822269030941">
+                <jpa:an e="true" n="@org.springframework.format.annotation.DateTimeFormat(iso=org.springframework.format.annotation.DateTimeFormat.ISO.DATE)"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="boolean" v="true" name="inRoute" ft="false" id="_149822269031042"/>
+            <jpa:many-to-one primaryKey="false" connected-entity-id="_149822269019516" v="true" name="place" ft="false" id="_149822269030938"/>
+            <jpa:id attribute-type="Long" v="true" name="id" ft="false" id="_149822269030937">
+                <jpa:generated-value/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="Orders"/>
+    </jpa:entity>
+    <jpa:snp loc="BEFORE_PACKAGE" e="true">/**
+ * This file was generated by the Jeddict
+ */</jpa:snp>
+    <jpa:wsl>
+        <jpa:ws n="Main" id="_149822269055543">
+            <i ref="_149822269021121" x="421" y="496"/>
+            <i ref="_149822269023027" x="830" y="496"/>
+            <i ref="_149822269030936" x="226" y="238"/>
+            <i ref="_149822269017713" x="632" y="617"/>
+            <i ref="_149822269019516" x="32" y="32"/>
+            <i ref="_149822269025031" x="32" y="496"/>
+            <i ref="_14982226901496" x="618" y="238"/>
+            <i ref="_14982226901252" x="421" y="32"/>
+        </jpa:ws>
+    </jpa:wsl>
+</jpa:entity-mappings>
