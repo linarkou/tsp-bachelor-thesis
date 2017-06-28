@@ -1,18 +1,22 @@
 package com.tsp.ga;
 
 import com.tsp.model.LatLng;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.IntStream;
+import org.springframework.util.comparator.ComparableComparator;
 
 public class Population
 {
@@ -21,14 +25,14 @@ public class Population
     public Population(ArrayList<ArrayList<Double>> dist, List<LatLng> locations)
     {
         Genom g1 = buildRouteAsRound(dist, locations);
-        Genom g2 = buildRouteByDistanceFromStart(dist);
-        Genom g3 = buildRouteByDistanceFromLastAdded(dist);
+        Genom g2 = buildRouteByDistanceFromStart(dist, locations.size());
+        Genom g3 = buildRouteByDistanceFromLastAdded(dist, locations.size());
         routes.add(g1);
         routes.add(g2);
         routes.add(g3);
         for (int i = 3; i < GA.POPILATION_SIZE; ++i)
         {
-            routes.add(buildRandomRoute(dist));
+            routes.add(buildRandomRoute(dist, locations.size()));
         }
         //sortRoutesByFitness();
     }
@@ -117,30 +121,41 @@ public class Population
         while (!points.isEmpty())
             places.add(points.pollFirstEntry().getValue());
         places.add(0);
-        return new Genom(places, dist);
+        Genom genom = new Genom(places, dist);
+        System.out.println("BY ROUND: "+genom.toString());
+        return genom;
     }
     
-    private Genom buildRouteByDistanceFromStart(ArrayList<ArrayList<Double>> dist)
+    private Genom buildRouteByDistanceFromStart(ArrayList<ArrayList<Double>> dist, int n)
     {
         LinkedList<Integer> places = new LinkedList<>();
-        TreeMap<Double, Integer> distFromStart = new TreeMap<>();
-        for (int i = 1; i < dist.size(); ++i)
-            distFromStart.put(dist.get(0).get(i), i);
+        List<Entry<Double, Integer>> distFromStart = new ArrayList<>();
+        for (int i = 1; i < n; ++i)
+            distFromStart.add(new SimpleEntry<Double, Integer>(dist.get(0).get(i), i));
+        Collections.sort(distFromStart, new Comparator<Entry<Double, Integer>>() {
+            @Override
+            public int compare(Entry<Double, Integer> o1, Entry<Double, Integer> o2)
+            {
+                return Double.compare(o1.getKey(), o2.getKey());
+            }
+        });
+        
         places.add(0);
-        while (!distFromStart.isEmpty())
-            places.add(distFromStart.pollFirstEntry().getValue());
+        for (int i = n-2; i >= 0; --i)
+            places.add(distFromStart.get(i).getValue());
         places.add(0);
-        return new Genom(places, dist);
+        Genom genom = new Genom(places, dist);
+        System.out.println("FROM START: "+genom.toString());
+        return genom;
     }
     
-    private Genom buildRouteByDistanceFromLastAdded(ArrayList<ArrayList<Double>> dist)
+    private Genom buildRouteByDistanceFromLastAdded(ArrayList<ArrayList<Double>> dist, int size)
     {
         LinkedList<Integer> places = new LinkedList<>();
         HashSet<Integer> used = new HashSet<>();
         int last = 0;
         places.add(last);
         used.add(last);
-        int size = dist.size();
         while (used.size() < size)
         {
             double min = Double.MAX_VALUE;
@@ -158,17 +173,21 @@ public class Population
             used.add(last);
         }
         places.add(0);
-        return new Genom(places, dist);
+        Genom genom = new Genom(places, dist);
+        System.out.println("FROM LAST ADDED: "+genom.toString());
+        return genom;
     }
     
-    public Genom buildRandomRoute(ArrayList<ArrayList<Double>> dist)
+    public Genom buildRandomRoute(ArrayList<ArrayList<Double>> dist, int size)
     {
         LinkedList<Integer> places = new LinkedList<>();
-        IntStream.range(1,dist.size()).forEach(x -> places.add(x));
+        IntStream.range(1,size).forEach(x -> places.add(x));
         Collections.shuffle(places);
         places.add(0,0);
         places.add(0);
-        return new Genom(places, dist);
+        Genom genom = new Genom(places, dist);
+        //System.out.println("RANDOM ROUTE: "+genom.toString());
+        return genom;
     }
     
     public int getSize()

@@ -46,7 +46,11 @@ public class Genom implements Comparable
         double totalDist = 0;
         int size = locations.size();
         for (int i = 0; i < size; ++i)
-            totalDist+=dist.get(locations.get(i)).get(locations.get((i+1)%size));
+        {
+            Integer i1 = locations.get(i);
+            Integer i2 = locations.get((i+1)%size);
+            totalDist+=dist.get(i1).get(i2);
+        } 
         return totalDist;
     }
     

@@ -29,10 +29,12 @@ public class GA
 {
     Logger log = LoggerFactory.getLogger(GA.class);
     
-    public static final double MUTATION_RATE = 0.25;
-    public static final int POPILATION_SIZE = 30;
-    public static final int NUM_OF_GENERATIONS = 100;
-    //public static final int NUM_OF_CROSSOVER_GENES = 2;
+    public static  double MUTATION_RATE = 0.3;
+    public static  int POPILATION_SIZE = 30;
+    public static  int NUM_OF_GENERATIONS = 1000;
+    public static  int NUM_OF_CROSSOVER_GENES = 2;
+    public static  int MUTATION_TYPE = 3; //1-reverse, 2-move, 3-reverse+move
+    public int iterations = 0;
     Population population;
     ArrayList<ArrayList<Double>> dist;
     Random rand = new Random();
@@ -43,7 +45,7 @@ public class GA
     {
         this.dist = dist;
         population = new Population(dist, locations);
-        lastPopulationHashCode = population.hashCode();
+        lastPopulationHashCode = -1;
         countOfRowEqualPopulations = 1;
     }
     
@@ -51,26 +53,30 @@ public class GA
     {
         int generationIndex = 0;
         for (; generationIndex < NUM_OF_GENERATIONS; ++generationIndex)
+        //while(true)
         {
+            //System.out.println(generationIndex+" population:");
+            //System.out.println(population.toString());
             evolve(population);
             //population.sortRoutesByFitness();
-            log.debug((generationIndex+1) + " generation:\n" + population.toString());
+            //log.debug((generationIndex+1) + " generation:\n" + population.toString());
             if (population.hashCode() == lastPopulationHashCode)
             {
                 countOfRowEqualPopulations++;
-                if (countOfRowEqualPopulations >= GA.POPILATION_SIZE/10)
+                if (countOfRowEqualPopulations >= GA.NUM_OF_GENERATIONS/100)
                 {
-                    generationIndex++;
                     break;
                 }
             }
             else
             {
                 lastPopulationHashCode = population.hashCode();
-            countOfRowEqualPopulations = 1;
+                countOfRowEqualPopulations = 1;
             }
         }
         log.info((generationIndex) + "generations \nGA returned genom: "+ population.getGenoms().last().getRoute());
+        System.err.println("DIST: " + population.getGenoms().last().calculateTotalDistance());
+        iterations = generationIndex;
         return population.getGenoms().last().getRoute();
     }
     
@@ -86,9 +92,17 @@ public class GA
         {
             if (Math.random() < MUTATION_RATE)
             {
-                
+//                if (MUTATION_TYPE == 1) 
+//                    partialReverseMutate(g); 
+//                if (MUTATION_TYPE == 2) 
+//                    moveMutate(g);
+//                if (MUTATION_TYPE == 3)
+//                {
+//                    partialReverseMutate(g); 
+//                    moveMutate(g);
+//                }
             }
-            reverseMutate(g);
+            fullReverseMutate(g);
         }
         return p;
     }
@@ -105,7 +119,19 @@ public class GA
             while (it2.hasNext())
             {
                 Genom g2 = it2.next();
-                newGenoms.add(EdgeRecombinationCrossover(g1, g2));
+                if (NUM_OF_CROSSOVER_GENES == 2)
+                    newGenoms.add(EdgeRecombinationCrossover(g1, g2));
+                if (NUM_OF_CROSSOVER_GENES == 3)
+                {
+                    Iterator<Genom> it3 = p.getGenoms().tailSet(g2, false).iterator();
+                    while (it3.hasNext())
+                    {
+                        Genom g3 = it3.next();
+                        if (it3.hasNext())
+                            g3 = it3.next();
+                        newGenoms.add(EdgeRecombinationCrossover(g1, g2, g3));
+                    }
+                }
             }
         }
         Iterator<Genom> d_it = newGenoms.descendingIterator();
@@ -136,9 +162,15 @@ public class GA
         return EdgeRecombinationCrossover(genoms);
     }
     
-    public Genom EdgeRecombinationCrossover(List<Genom> genoms)
+    public  Genom EdgeRecombinationCrossover(List<Genom> genoms)
     {
+        //Random rand = new Random();
         int countOfPlaces = genoms.get(0).getSize()-1;  // -1 because it has place='0' twice
+        if (genoms.get(1).getSize()-1 != countOfPlaces)
+        {
+            System.out.println("GENOMS HAS DIFFERENT SIZES: "+genoms.get(0).toString() +"; "+ genoms.get(1).toString());
+//            log.warn("GENOMS HAS DIFFERENT SIZES: "+genoms.get(0).toString() +"; "+ genoms.get(1).toString());
+        }
         List<List<Integer>> edges = new ArrayList<>(countOfPlaces); // 
         for (int i = 0; i < countOfPlaces; ++i)
         {
@@ -154,6 +186,7 @@ public class GA
                     edges.get(first).add(second);
                 double delta = Math.abs(dist.get(first).get(second)-dist.get(second).get(first)); //относительное отличие в расстояниях в прямую и обратную сторону
                 if (delta < 0.03 && !edges.get(second).contains(first)) // если отличие менее 3%, то считаем, что в обратную сторону тоже есть дуга
+                //if (!edges.get(second).contains(first))
                     edges.get(second).add(first);
             }
         }
@@ -195,7 +228,7 @@ public class GA
         return new Genom(res, dist);
     }
     
-    public void reverseMutate(Genom g)
+    public void fullReverseMutate(Genom g)
     {
         double baseFitness = g.getFitness();
         ArrayList<Integer> reversedRoute = new ArrayList<>(g.getRoute());
@@ -203,6 +236,74 @@ public class GA
         Genom g1 = new Genom(reversedRoute, dist);
         if (g1.getFitness() > baseFitness)
             g = g1;
+    }
+    
+    public void partialReverseMutate(Genom g)
+    {
+        int n = g.getSize();
+        int k1 = rand.nextInt(g.getSize());
+        int l = rand.nextInt(n-k1);
+        List<Integer> sourceRoute = g.getRoute();
+        List<Integer> newRoute = new ArrayList<>();
+        int i = 0;
+        for (i = 0; i < k1; ++i)
+            newRoute.add(sourceRoute.get(i));
+        for (i = k1+l - 1; i >= k1; --i)
+            newRoute.add(sourceRoute.get(i));
+        for (i = k1+l; i < n; ++i)
+            newRoute.add(sourceRoute.get(i));
+        if (newRoute.size() != sourceRoute.size())
+            log.warn("BUG IN REVERSE - size changed");
+        g.setRoute(newRoute);
+    }
+    /**
+     * Перемещает часть гена от k1 до k2 аллели на m позиций вперед(m>0) или назад (m < 0)
+     * @param g Genom to mutate
+     */
+    public void moveMutate(Genom g) 
+    {
+        int n = g.getSize();
+        int k1 = rand.nextInt(g.getSize());
+        int k2 = rand.nextInt(g.getSize());
+        if (k2 < k1)
+        {
+            int tmp = k1;
+            k1=k2;
+            k2 = tmp;
+        }
+        int l = k2-k1+1;
+        int m = rand.nextInt(n-l+1);
+        m-=k1;
+        //int new_k1 = (k1+m)%(n-l-1);
+        //m = new_k1 - k1;
+        List<Integer> sourceRoute = g.getRoute();
+        List<Integer> newRoute = new ArrayList<>();
+        System.out.println("m="+m+", k1="+k1+", k2="+k2);
+        if (m == 0)
+            return;
+        if (m > 0)
+        {
+            for (int i = 0; i < k1; ++i)
+                newRoute.add(sourceRoute.get(i));
+            for (int i = k2+1; i < k2+m+1; ++i)
+                newRoute.add(sourceRoute.get(i));
+            for (int i = k1; i <= k2; ++i)
+                newRoute.add(sourceRoute.get(i));
+            for (int i = k2+m+1; i < n; ++i)
+                newRoute.add(sourceRoute.get(i));
+        } else {
+            for (int i = 0; i < k1-(-m); ++i)
+                newRoute.add(sourceRoute.get(i));
+            for (int i = k1; i <= k2; ++i)
+                newRoute.add(sourceRoute.get(i));
+            for (int i = k1-(-m); i < k1; ++i)
+                newRoute.add(sourceRoute.get(i));
+            for (int i = k2+1; i < n; ++i)
+                newRoute.add(sourceRoute.get(i));
+        }
+        if (newRoute.size() != sourceRoute.size())
+            log.warn("BUG IN MOVE - size changed");
+        g.setRoute(newRoute);
     }
     
 }
