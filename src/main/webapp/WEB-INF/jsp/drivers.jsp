@@ -28,10 +28,11 @@
         <ul>
             <li><a href="${contextPath}/welcome">Добро пожаловать</a></li>
             <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_ADMIN\")}">
-                <li><a href="${contextPath}/admin/stocks">Склады</a></li>
+                <li><a href="${contextPath}/admin/stocks">Пункты производства</a></li>
                 <li><a href="${contextPath}/admin/drivers" class="current">Водители</a></li>
-                <li><a href="${contextPath}/admin/clients">Клиенты</a></li>
+                <!--<li><a href="${contextPath}/admin/clients">Клиенты</a></li>-->
                 <li><a href="${contextPath}/admin/orders">Заказы</a></li>
+                <li><a href="${contextPath}/admin/createroute">Создать маршрут</a></li>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_DRIVER\")}">
                 <li><a href="${contextPath}/driver/currentRoute">Текущий маршрут</a></li>
@@ -60,8 +61,8 @@
         <tr>
             <th>№</th>
             <th>ФИО</th>
-            <th>Склад, на котором работает</th>
-            <th>Выполненных маршрутов</th>
+            <th>Пункт производства, на котором работает</th>
+            <th>Просмотр маршрутов водителя</th>
             <th>Уволить</th>
         </tr>
         <c:forEach var="x" items="${drivers}">
@@ -69,7 +70,7 @@
                 <td>${x.id}</td>
                 <td>${x.fullName}</td>
                 <td>${x.stock.place.address}</td>
-                <td>???</td>
+                <td><a href="${contextPath}/admin/drivers/routes?id=${x.id}">Посмотреть</a></td>
                 <td><a href="${contextPath}/admin/drivers/remove?id=${x.id}">Уволить</a></td>
             </tr>
         </c:forEach>

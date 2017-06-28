@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Текущий маршрут</title>
+    <title>Создать маршрут</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
@@ -28,14 +28,15 @@
         <ul>
             <li><a href="${contextPath}/welcome">Добро пожаловать</a></li>
             <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_ADMIN\")}">
-                <li><a href="${contextPath}/admin/stocks">Склады</a></li>
+                <li><a href="${contextPath}/admin/stocks">Пункты производства</a></li>
                 <li><a href="${contextPath}/admin/drivers">Водители</a></li>
-                <li><a href="${contextPath}/admin/clients">Клиенты</a></li>
+                <!--<li><a href="${contextPath}/admin/clients">Клиенты</a></li>-->
                 <li><a href="${contextPath}/admin/orders">Заказы</a></li>
+                <li><a href="${contextPath}/admin/createroute" class="current">Создать маршрут</a></li>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_DRIVER\")}">
-                <li><a href="${contextPath}/driver/currentRoute" class="current">Текущий маршрут</a></li>
-                <li><a href="${contextPath}/driver/routes">Все маршруты</a></li>
+                <li><a href="${contextPath}/driver/currentRoute">Текущий маршрут</a></li>
+                <li><a href="${contextPath}/driver/routes">Законченные маршруты</a></li>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_CLIENT\")}">
                 <li><a href="${contextPath}/client/orders">Мои заказы</a></li>
@@ -46,14 +47,20 @@
         </nav>
     </c:if>
         
-        <c:if test="${orderscount != 0}">
-            <br>Найдено ${orderscount} заказов на сегодня. Если хотите взяться за доставку, <a href="${contextPath}/driver/initroute">нажмите сюда.</a>
-        </c:if>
-        <c:if test="${orderscount == 0}">
-            <br>На данный момент заказов, которые нужно доставить сегодня, нет в базе.<br> попробуйте позже.
-        </c:if>
+        <div class="to-delete">${error}</div>
         
-
+    <h4>Создать маршрут</h4>
+    <form method="post" action="${contextPath}/admin/initroute"> 
+        Выберите водителя:<select name="driver_id">
+            <c:forEach items="${drivers}" var="x">
+                <option value="${x.id}">${x.fullName}</option>
+            </c:forEach>
+        </select>
+        Выберите дату:<input type="date" name="date" value="${today}" min="${today}" max="${today.plusDays(30)}"/><br/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/><br/>
+        <input type="submit" value="Создать маршрут"/> 
+    </form>
+    
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>

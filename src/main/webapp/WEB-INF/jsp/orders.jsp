@@ -28,10 +28,11 @@
         <ul>
             <li><a href="${contextPath}/welcome">Добро пожаловать</a></li>
             <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_ADMIN\")}">
-                <li><a href="${contextPath}/admin/stocks">Склады</a></li>
+                <li><a href="${contextPath}/admin/stocks">Пункт производства</a></li>
                 <li><a href="${contextPath}/admin/drivers">Водители</a></li>
-                <li><a href="${contextPath}/admin/clients">Клиенты</a></li>
+                <!--<li><a href="${contextPath}/admin/clients">Клиенты</a></li>-->
                 <li><a href="${contextPath}/admin/orders" class="current">Заказы</a></li>
+                <li><a href="${contextPath}/admin/createroute">Создать маршрут</a></li>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_DRIVER\")}">
                 <li><a href="${contextPath}/driver/currentRoute">Текущий маршрут</a></li>
@@ -48,11 +49,28 @@
         
     <h4>Добавить заказ</h4>
     <form method="post" action="${contextPath}/admin/orders/add"> 
-        <input name="address" placeholder="Полный адрес (город, улица, дом)" size="40"/><br/>
-        Дата доставки заказа: <input type="date" name="date" placeholder="Дата доставки заказа" value="${today}" min="${today}" max="${today.plusDays(30)}"/><br/>
+        <input id="address" name="address" placeholder="Полный адрес (город, улица, дом)" size="40" /><br/>
+        Дата доставки заказа: <input type="date" name="date" value="${today}" min="${today}" max="${today.plusDays(30)}"/><br/>
         <textarea name="desc" placeholder="Описание заказа" cols="39" rows="3" ></textarea>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/><br/>
         <input type="submit" value="Добавить заказ"/> 
+        <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@17.5.0/dist/css/suggestions.min.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <!--[if lt IE 10]>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/suggestions-jquery@17.5.0/dist/js/jquery.suggestions.min.js"></script>
+        <script type="text/javascript">
+            $("#address").suggestions({
+                token: "49cb3f7920d5667d27b2f00d7721b122f1dd3cf7",
+                type: "ADDRESS",
+                count: 5,
+                /* Вызывается, когда пользователь выбирает одну из подсказок */
+                onSelect: function(suggestion) {
+                    console.log(suggestion);
+                }
+            });
+        </script>
     </form>
     
     <h4>Заказы ${username}:</h4>
@@ -74,7 +92,7 @@
                 <td>${x.description}</td>
                 <td>
                     <c:choose>
-                        <c:when test="${!x.status.equals(\"Отменен\")}">
+                        <c:when test="${x.status.equals(\"Не выполнен\")}">
                             <a href="${contextPath}/admin/orders/cancel?id=${x.id}">Отменить</a>
                         </c:when>
                         <c:otherwise>

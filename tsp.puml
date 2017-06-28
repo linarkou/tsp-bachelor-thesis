@@ -1,0 +1,559 @@
+@startuml
+annotation com.tsp.model.Column
+annotation com.tsp.model.Embeddable
+annotation com.tsp.model.EmbeddedId
+annotation com.tsp.model.Entity
+annotation com.tsp.model.GeneratedValue
+annotation com.tsp.model.Id
+annotation com.tsp.model.Inheritance
+annotation com.tsp.model.JoinColumn
+annotation com.tsp.model.JoinColumns
+annotation com.tsp.model.JoinTable
+annotation com.tsp.model.ManyToMany
+annotation com.tsp.model.ManyToOne
+annotation com.tsp.model.OneToMany
+annotation com.tsp.model.OneToOne
+annotation com.tsp.model.Table
+annotation com.tsp.model.Transient
+annotation com.tsp.model.UniqueConstraint
+annotation java.lang.Override
+annotation javax.annotation.security.RolesAllowed
+annotation javax.persistence.Converter
+annotation javax.persistence.PersistenceContext
+annotation org.springframework.beans.factory.annotation.Autowired
+annotation org.springframework.format.annotation.DateTimeFormat
+annotation org.springframework.stereotype.Component
+annotation org.springframework.stereotype.Controller
+annotation org.springframework.stereotype.Repository
+annotation org.springframework.stereotype.Service
+annotation org.springframework.transaction.annotation.Transactional
+annotation org.springframework.web.bind.annotation.ModelAttribute
+annotation org.springframework.web.bind.annotation.RequestMapping
+annotation org.springframework.web.bind.annotation.RequestParam
+annotation org.springframework.web.bind.annotation.SessionAttributes
+class com.tsp.controllers.AdminController
+class com.tsp.controllers.DriverController
+class com.tsp.controllers.UserController
+class com.tsp.converter.LocalDateAttributeConverter
+class com.tsp.converter.StringToDate
+class com.tsp.converter.StringToStock
+class com.tsp.dao.ClientDao
+class com.tsp.dao.DriverDao
+class com.tsp.dao.OrderDao
+class com.tsp.dao.PlaceDao
+class com.tsp.dao.RouteDao
+class com.tsp.dao.StockDao
+class com.tsp.ga.GA
+class com.tsp.ga.GAService
+class com.tsp.ga.Genom
+class com.tsp.ga.Population
+class com.tsp.geocode.Geocoder
+class com.tsp.model.Client
+class com.tsp.model.Driver
+class com.tsp.model.LatLng
+class com.tsp.model.Order
+class com.tsp.model.Place
+class com.tsp.model.Role
+class com.tsp.model.Route
+class com.tsp.model.Stock
+class com.tsp.model.User
+class com.tsp.service.ClientServiceImpl
+class com.tsp.service.DriverServiceImpl
+class com.tsp.service.SecurityServiceImpl
+class com.tsp.service.UserDetailsServiceImpl
+class com.tsp.service.UserServiceImpl
+class com.tsp.validator.UserValidator
+class java.io.File
+class java.io.FileNotFoundException
+class java.io.FileReader
+class java.io.IOException
+class java.io.InputStream
+class java.security.Principal
+class java.sql.Date
+class java.util.AbstractList
+class java.util.AbstractMap.SimpleEntry
+class java.util.ArrayList
+class java.util.Collection
+class java.util.Collections
+class java.util.HashMap
+class java.util.HashSet
+class java.util.Iterator
+class java.util.LinkedList
+class java.util.List
+class java.util.Locale
+class java.util.Map
+class java.util.Map.Entry
+class java.util.Properties
+class java.util.Random
+class java.util.Set
+class java.util.TreeMap
+class java.util.TreeSet
+class java.util.logging.Level
+class java.util.logging.Logger
+class java.util.stream.Collectors
+class java.util.stream.IntStream
+class javax.persistence.EntityManager
+class javax.persistence.EntityTransaction
+class javax.persistence.NoResultException
+class javax.persistence.NonUniqueResultException
+class javax.persistence.TypedQuery
+class org.joda.time.LocalDate
+class org.joda.time.format.ISODateTimeFormat
+class org.slf4j.Logger
+class org.slf4j.LoggerFactory
+class org.springframework.format.annotation.DateTimeFormat.ISO
+class org.springframework.security.authentication.AuthenticationManager
+class org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+class org.springframework.security.core.GrantedAuthority
+class org.springframework.security.core.authority.SimpleGrantedAuthority
+class org.springframework.security.core.context.SecurityContextHolder
+class org.springframework.security.core.userdetails.UserDetails
+class org.springframework.security.core.userdetails.UsernameNotFoundException
+class org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+class org.springframework.ui.Model
+class org.springframework.util.CollectionUtils
+class org.springframework.validation.BeanPropertyBindingResult
+class org.springframework.validation.BindingResult
+class org.springframework.validation.Errors
+class org.springframework.validation.ObjectError
+class org.springframework.validation.ValidationUtils
+class org.springframework.web.bind.annotation.RequestMethod
+class org.springframework.web.bind.support.SessionStatus
+class org.springframework.web.servlet.ModelAndView
+interface com.tsp.dao.RoleDao
+interface com.tsp.dao.UserDao
+interface com.tsp.service.ClientService
+interface com.tsp.service.DriverService
+interface com.tsp.service.SecurityService
+interface com.tsp.service.UserService
+interface java.io.Serializable
+interface java.lang.Comparable
+interface javax.persistence.AttributeConverter
+interface org.springframework.core.convert.converter.Converter
+interface org.springframework.data.jpa.repository.JpaRepository
+interface org.springframework.security.core.userdetails.UserDetailsService
+interface org.springframework.validation.Validator
+com.tsp.controllers.AdminController ..> javax.annotation.security.RolesAllowed
+com.tsp.controllers.AdminController ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.controllers.AdminController ..> org.springframework.format.annotation.DateTimeFormat
+com.tsp.controllers.AdminController ..> org.springframework.stereotype.Controller
+com.tsp.controllers.AdminController ..> org.springframework.web.bind.annotation.RequestMapping
+com.tsp.controllers.AdminController ..> org.springframework.web.bind.annotation.RequestParam
+com.tsp.controllers.AdminController ..> com.tsp.dao.ClientDao
+com.tsp.controllers.AdminController ..> com.tsp.dao.DriverDao
+com.tsp.controllers.AdminController ..> com.tsp.dao.OrderDao
+com.tsp.controllers.AdminController ..> com.tsp.dao.RouteDao
+com.tsp.controllers.AdminController ..> com.tsp.dao.StockDao
+com.tsp.controllers.AdminController ..> com.tsp.model.Client
+com.tsp.controllers.AdminController ..> com.tsp.model.Driver
+com.tsp.controllers.AdminController ..> com.tsp.model.Order
+com.tsp.controllers.AdminController ..> com.tsp.model.Route
+com.tsp.controllers.AdminController ..> com.tsp.model.Stock
+com.tsp.controllers.AdminController ..> java.util.List
+com.tsp.controllers.AdminController ..> org.joda.time.LocalDate
+com.tsp.controllers.AdminController ..> org.springframework.format.annotation.DateTimeFormat.ISO
+com.tsp.controllers.AdminController ..> org.springframework.ui.Model
+com.tsp.controllers.AdminController ..> org.springframework.web.bind.annotation.RequestMethod
+com.tsp.controllers.AdminController ..> org.springframework.web.servlet.ModelAndView
+com.tsp.controllers.DriverController ..> javax.annotation.security.RolesAllowed
+com.tsp.controllers.DriverController ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.controllers.DriverController ..> org.springframework.format.annotation.DateTimeFormat
+com.tsp.controllers.DriverController ..> org.springframework.stereotype.Controller
+com.tsp.controllers.DriverController ..> org.springframework.web.bind.annotation.RequestMapping
+com.tsp.controllers.DriverController ..> org.springframework.web.bind.annotation.RequestParam
+com.tsp.controllers.DriverController ..> org.springframework.web.bind.annotation.SessionAttributes
+com.tsp.controllers.DriverController ..> com.tsp.dao.ClientDao
+com.tsp.controllers.DriverController ..> com.tsp.dao.DriverDao
+com.tsp.controllers.DriverController ..> com.tsp.dao.OrderDao
+com.tsp.controllers.DriverController ..> com.tsp.dao.RouteDao
+com.tsp.controllers.DriverController ..> com.tsp.dao.StockDao
+com.tsp.controllers.DriverController ..> com.tsp.ga.GAService
+com.tsp.controllers.DriverController ..> com.tsp.model.Client
+com.tsp.controllers.DriverController ..> com.tsp.model.Driver
+com.tsp.controllers.DriverController ..> com.tsp.model.Order
+com.tsp.controllers.DriverController ..> com.tsp.model.Route
+com.tsp.controllers.DriverController ..> java.security.Principal
+com.tsp.controllers.DriverController ..> java.util.List
+com.tsp.controllers.DriverController ..> org.joda.time.LocalDate
+com.tsp.controllers.DriverController ..> org.springframework.format.annotation.DateTimeFormat.ISO
+com.tsp.controllers.DriverController ..> org.springframework.ui.Model
+com.tsp.controllers.DriverController ..> org.springframework.web.bind.annotation.RequestMethod
+com.tsp.controllers.DriverController ..> org.springframework.web.bind.support.SessionStatus
+com.tsp.controllers.DriverController ..> org.springframework.web.servlet.ModelAndView
+com.tsp.controllers.UserController ..> javax.annotation.security.RolesAllowed
+com.tsp.controllers.UserController ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.controllers.UserController ..> org.springframework.stereotype.Controller
+com.tsp.controllers.UserController ..> org.springframework.web.bind.annotation.ModelAttribute
+com.tsp.controllers.UserController ..> org.springframework.web.bind.annotation.RequestMapping
+com.tsp.controllers.UserController ..> com.tsp.dao.ClientDao
+com.tsp.controllers.UserController ..> com.tsp.dao.StockDao
+com.tsp.controllers.UserController ..> com.tsp.model.Client
+com.tsp.controllers.UserController ..> com.tsp.model.Driver
+com.tsp.controllers.UserController ..> com.tsp.model.User
+com.tsp.controllers.UserController ..> com.tsp.service.ClientServiceImpl
+com.tsp.controllers.UserController ..> com.tsp.service.DriverServiceImpl
+com.tsp.controllers.UserController ..> com.tsp.validator.UserValidator
+com.tsp.controllers.UserController ..> java.util.Map
+com.tsp.controllers.UserController ..> org.slf4j.Logger
+com.tsp.controllers.UserController ..> org.slf4j.LoggerFactory
+com.tsp.controllers.UserController ..> org.springframework.ui.Model
+com.tsp.controllers.UserController ..> org.springframework.validation.BeanPropertyBindingResult
+com.tsp.controllers.UserController ..> org.springframework.validation.BindingResult
+com.tsp.controllers.UserController ..> org.springframework.validation.ObjectError
+com.tsp.controllers.UserController ..> org.springframework.web.bind.annotation.RequestMethod
+com.tsp.controllers.UserController ..> com.tsp.service.ClientService
+com.tsp.controllers.UserController ..> com.tsp.service.DriverService
+com.tsp.controllers.UserController ..> com.tsp.service.SecurityService
+com.tsp.controllers.UserController ..> com.tsp.service.UserService
+com.tsp.converter.LocalDateAttributeConverter ..> java.lang.Override
+com.tsp.converter.LocalDateAttributeConverter ..> javax.persistence.Converter
+com.tsp.converter.LocalDateAttributeConverter ..> java.sql.Date
+com.tsp.converter.LocalDateAttributeConverter ..> org.joda.time.LocalDate
+com.tsp.converter.LocalDateAttributeConverter ..> org.joda.time.format.ISODateTimeFormat
+com.tsp.converter.LocalDateAttributeConverter --|> javax.persistence.AttributeConverter
+com.tsp.converter.StringToDate ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.converter.StringToDate ..> org.joda.time.LocalDate
+com.tsp.converter.StringToDate ..> org.joda.time.format.ISODateTimeFormat
+com.tsp.converter.StringToDate --|> org.springframework.core.convert.converter.Converter
+com.tsp.converter.StringToStock ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.converter.StringToStock ..> com.tsp.dao.StockDao
+com.tsp.converter.StringToStock ..> com.tsp.model.Stock
+com.tsp.converter.StringToStock --|> org.springframework.core.convert.converter.Converter
+com.tsp.dao.ClientDao ..> javax.persistence.PersistenceContext
+com.tsp.dao.ClientDao ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.dao.ClientDao ..> org.springframework.stereotype.Repository
+com.tsp.dao.ClientDao ..> org.springframework.transaction.annotation.Transactional
+com.tsp.dao.ClientDao ..> java.io.IOException
+com.tsp.dao.ClientDao ..> java.io.InputStream
+com.tsp.dao.ClientDao ..> java.util.ArrayList
+com.tsp.dao.ClientDao ..> java.util.List
+com.tsp.dao.ClientDao ..> java.util.Properties
+com.tsp.dao.ClientDao ..> java.util.logging.Level
+com.tsp.dao.ClientDao ..> java.util.logging.Logger
+com.tsp.dao.ClientDao ..> javax.persistence.EntityManager
+com.tsp.dao.ClientDao ..> javax.persistence.EntityTransaction
+com.tsp.dao.ClientDao ..> javax.persistence.NoResultException
+com.tsp.dao.ClientDao ..> javax.persistence.NonUniqueResultException
+com.tsp.dao.ClientDao ..> javax.persistence.TypedQuery
+com.tsp.dao.DriverDao ..> javax.persistence.PersistenceContext
+com.tsp.dao.DriverDao ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.dao.DriverDao ..> org.springframework.stereotype.Repository
+com.tsp.dao.DriverDao ..> org.springframework.transaction.annotation.Transactional
+com.tsp.dao.DriverDao ..> java.io.IOException
+com.tsp.dao.DriverDao ..> java.io.InputStream
+com.tsp.dao.DriverDao ..> java.util.ArrayList
+com.tsp.dao.DriverDao ..> java.util.List
+com.tsp.dao.DriverDao ..> java.util.Properties
+com.tsp.dao.DriverDao ..> java.util.logging.Level
+com.tsp.dao.DriverDao ..> java.util.logging.Logger
+com.tsp.dao.DriverDao ..> javax.persistence.EntityManager
+com.tsp.dao.DriverDao ..> javax.persistence.EntityTransaction
+com.tsp.dao.DriverDao ..> javax.persistence.NoResultException
+com.tsp.dao.DriverDao ..> javax.persistence.NonUniqueResultException
+com.tsp.dao.DriverDao ..> javax.persistence.TypedQuery
+com.tsp.dao.DriverDao ..> org.springframework.data.jpa.repository.JpaRepository
+com.tsp.dao.OrderDao ..> javax.persistence.PersistenceContext
+com.tsp.dao.OrderDao ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.dao.OrderDao ..> org.springframework.stereotype.Repository
+com.tsp.dao.OrderDao ..> org.springframework.transaction.annotation.Transactional
+com.tsp.dao.OrderDao ..> java.io.IOException
+com.tsp.dao.OrderDao ..> java.io.InputStream
+com.tsp.dao.OrderDao ..> java.util.ArrayList
+com.tsp.dao.OrderDao ..> java.util.List
+com.tsp.dao.OrderDao ..> java.util.Properties
+com.tsp.dao.OrderDao ..> java.util.logging.Level
+com.tsp.dao.OrderDao ..> java.util.logging.Logger
+com.tsp.dao.OrderDao ..> javax.persistence.EntityManager
+com.tsp.dao.OrderDao ..> javax.persistence.EntityTransaction
+com.tsp.dao.OrderDao ..> javax.persistence.NoResultException
+com.tsp.dao.OrderDao ..> javax.persistence.NonUniqueResultException
+com.tsp.dao.OrderDao ..> javax.persistence.TypedQuery
+com.tsp.dao.OrderDao ..> org.joda.time.LocalDate
+com.tsp.dao.PlaceDao ..> javax.persistence.PersistenceContext
+com.tsp.dao.PlaceDao ..> org.springframework.stereotype.Repository
+com.tsp.dao.PlaceDao ..> org.springframework.transaction.annotation.Transactional
+com.tsp.dao.PlaceDao ..> com.tsp.geocode.Geocoder
+com.tsp.dao.PlaceDao ..> com.tsp.model.LatLng
+com.tsp.dao.PlaceDao ..> com.tsp.model.Place
+com.tsp.dao.PlaceDao ..> java.util.List
+com.tsp.dao.PlaceDao ..> java.util.Map
+com.tsp.dao.PlaceDao ..> javax.persistence.EntityManager
+com.tsp.dao.PlaceDao ..> org.slf4j.Logger
+com.tsp.dao.PlaceDao ..> org.slf4j.LoggerFactory
+com.tsp.dao.RouteDao ..> javax.persistence.PersistenceContext
+com.tsp.dao.RouteDao ..> org.springframework.stereotype.Repository
+com.tsp.dao.RouteDao ..> org.springframework.transaction.annotation.Transactional
+com.tsp.dao.RouteDao ..> com.tsp.model.Driver
+com.tsp.dao.RouteDao ..> com.tsp.model.Order
+com.tsp.dao.RouteDao ..> com.tsp.model.Route
+com.tsp.dao.RouteDao ..> java.util.List
+com.tsp.dao.RouteDao ..> javax.persistence.EntityManager
+com.tsp.dao.RouteDao ..> javax.persistence.NoResultException
+com.tsp.dao.RouteDao ..> javax.persistence.NonUniqueResultException
+com.tsp.dao.RouteDao ..> javax.persistence.TypedQuery
+com.tsp.dao.StockDao ..> javax.persistence.PersistenceContext
+com.tsp.dao.StockDao ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.dao.StockDao ..> org.springframework.stereotype.Repository
+com.tsp.dao.StockDao ..> org.springframework.transaction.annotation.Transactional
+com.tsp.dao.StockDao ..> com.tsp.model.Place
+com.tsp.dao.StockDao ..> com.tsp.model.Stock
+com.tsp.dao.StockDao ..> java.util.List
+com.tsp.dao.StockDao ..> javax.persistence.EntityManager
+com.tsp.dao.StockDao ..> javax.persistence.NoResultException
+com.tsp.dao.StockDao ..> javax.persistence.NonUniqueResultException
+com.tsp.dao.StockDao ..> javax.persistence.TypedQuery
+com.tsp.dao.StockDao ..> org.slf4j.Logger
+com.tsp.dao.StockDao ..> org.slf4j.LoggerFactory
+com.tsp.ga.GA ..> com.tsp.model.LatLng
+com.tsp.ga.GA ..> java.util.ArrayList
+com.tsp.ga.GA ..> java.util.Collections
+com.tsp.ga.GA ..> java.util.HashSet
+com.tsp.ga.GA ..> java.util.Iterator
+com.tsp.ga.GA ..> java.util.LinkedList
+com.tsp.ga.GA ..> java.util.List
+com.tsp.ga.GA ..> java.util.Random
+com.tsp.ga.GA ..> java.util.Set
+com.tsp.ga.GA ..> java.util.TreeSet
+com.tsp.ga.GA ..> java.util.stream.Collectors
+com.tsp.ga.GA ..> java.util.stream.IntStream
+com.tsp.ga.GA ..> org.slf4j.Logger
+com.tsp.ga.GA ..> org.slf4j.LoggerFactory
+com.tsp.ga.GA ..> org.springframework.util.CollectionUtils
+com.tsp.ga.GAService ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.ga.GAService ..> com.tsp.dao.ClientDao
+com.tsp.ga.GAService ..> com.tsp.model.Client
+com.tsp.ga.GAService ..> com.tsp.model.LatLng
+com.tsp.ga.GAService ..> com.tsp.model.Order
+com.tsp.ga.GAService ..> com.tsp.model.Place
+com.tsp.ga.GAService ..> com.tsp.model.Route
+com.tsp.ga.GAService ..> com.tsp.model.Stock
+com.tsp.ga.GAService ..> java.util.AbstractList
+com.tsp.ga.GAService ..> java.util.ArrayList
+com.tsp.ga.GAService ..> java.util.Collections
+com.tsp.ga.GAService ..> java.util.List
+com.tsp.ga.GAService ..> java.util.stream.Collectors
+com.tsp.ga.GAService ..> org.slf4j.Logger
+com.tsp.ga.GAService ..> org.slf4j.LoggerFactory
+com.tsp.ga.Genom ..> java.lang.Override
+com.tsp.ga.Genom ..> java.util.ArrayList
+com.tsp.ga.Genom ..> java.util.Collection
+com.tsp.ga.Genom ..> java.util.List
+com.tsp.ga.Genom --|> java.lang.Comparable
+com.tsp.ga.Population ..> java.lang.Override
+com.tsp.ga.Population ..> com.tsp.model.LatLng
+com.tsp.ga.Population ..> java.util.ArrayList
+com.tsp.ga.Population ..> java.util.Collection
+com.tsp.ga.Population ..> java.util.Collections
+com.tsp.ga.Population ..> java.util.HashMap
+com.tsp.ga.Population ..> java.util.HashSet
+com.tsp.ga.Population ..> java.util.LinkedList
+com.tsp.ga.Population ..> java.util.List
+com.tsp.ga.Population ..> java.util.Map
+com.tsp.ga.Population ..> java.util.Set
+com.tsp.ga.Population ..> java.util.TreeMap
+com.tsp.ga.Population ..> java.util.TreeSet
+com.tsp.ga.Population ..> java.util.stream.IntStream
+com.tsp.geocode.Geocoder ..> com.tsp.model.LatLng
+com.tsp.geocode.Geocoder ..> com.tsp.model.Place
+com.tsp.geocode.Geocoder ..> java.util.AbstractMap.SimpleEntry
+com.tsp.geocode.Geocoder ..> java.util.HashMap
+com.tsp.geocode.Geocoder ..> java.util.Map
+com.tsp.geocode.Geocoder ..> java.util.Map.Entry
+com.tsp.geocode.Geocoder ..> java.util.logging.Level
+com.tsp.geocode.Geocoder ..> java.util.logging.Logger
+com.tsp.model.Client ..> com.tsp.model.Entity
+com.tsp.model.Client ..> com.tsp.model.ManyToOne
+com.tsp.model.Client ..> com.tsp.model.OneToMany
+com.tsp.model.Client ..> com.tsp.model.Table
+com.tsp.model.Client ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.model.Client --|> com.tsp.model.User
+com.tsp.model.Client ..> java.util.ArrayList
+com.tsp.model.Client ..> java.util.HashSet
+com.tsp.model.Client ..> java.util.List
+com.tsp.model.Client ..> com.tsp.dao.RoleDao
+com.tsp.model.Client ..> java.io.Serializable
+com.tsp.model.Driver ..> com.tsp.model.Entity
+com.tsp.model.Driver ..> com.tsp.model.ManyToOne
+com.tsp.model.Driver ..> com.tsp.model.OneToMany
+com.tsp.model.Driver ..> com.tsp.model.Table
+com.tsp.model.Driver ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.model.Driver ..> com.tsp.dao.StockDao
+com.tsp.model.Driver --|> com.tsp.model.User
+com.tsp.model.Driver ..> java.util.HashSet
+com.tsp.model.Driver ..> java.util.List
+com.tsp.model.Driver ..> org.slf4j.Logger
+com.tsp.model.Driver ..> org.slf4j.LoggerFactory
+com.tsp.model.Driver ..> com.tsp.dao.RoleDao
+com.tsp.model.LatLng ..> com.tsp.model.Embeddable
+com.tsp.model.LatLng ..> java.lang.Override
+com.tsp.model.LatLng ..> java.util.Locale
+com.tsp.model.LatLng --|> java.io.Serializable
+com.tsp.model.Order ..> com.tsp.model.Column
+com.tsp.model.Order ..> com.tsp.model.Entity
+com.tsp.model.Order ..> com.tsp.model.GeneratedValue
+com.tsp.model.Order ..> com.tsp.model.Id
+com.tsp.model.Order ..> com.tsp.model.ManyToOne
+com.tsp.model.Order ..> com.tsp.model.Table
+com.tsp.model.Order ..> org.springframework.format.annotation.DateTimeFormat
+com.tsp.model.Order ..> org.joda.time.LocalDate
+com.tsp.model.Place ..> com.tsp.model.EmbeddedId
+com.tsp.model.Place ..> com.tsp.model.Entity
+com.tsp.model.Place ..> com.tsp.model.Table
+com.tsp.model.Place ..> java.lang.Override
+com.tsp.model.Place ..> com.tsp.geocode.Geocoder
+com.tsp.model.Place ..> java.util.Map
+com.tsp.model.Role ..> com.tsp.model.Column
+com.tsp.model.Role ..> com.tsp.model.Entity
+com.tsp.model.Role ..> com.tsp.model.GeneratedValue
+com.tsp.model.Role ..> com.tsp.model.Id
+com.tsp.model.Role ..> com.tsp.model.ManyToMany
+com.tsp.model.Role ..> com.tsp.model.Table
+com.tsp.model.Role ..> java.lang.Override
+com.tsp.model.Role ..> java.util.Set
+com.tsp.model.Route ..> com.tsp.model.Entity
+com.tsp.model.Route ..> com.tsp.model.GeneratedValue
+com.tsp.model.Route ..> com.tsp.model.Id
+com.tsp.model.Route ..> com.tsp.model.ManyToMany
+com.tsp.model.Route ..> com.tsp.model.ManyToOne
+com.tsp.model.Route ..> com.tsp.model.Table
+com.tsp.model.Route ..> java.lang.Override
+com.tsp.model.Route ..> java.util.List
+com.tsp.model.Route ..> org.joda.time.LocalDate
+com.tsp.model.Stock ..> com.tsp.model.Entity
+com.tsp.model.Stock ..> com.tsp.model.GeneratedValue
+com.tsp.model.Stock ..> com.tsp.model.Id
+com.tsp.model.Stock ..> com.tsp.model.JoinColumn
+com.tsp.model.Stock ..> com.tsp.model.JoinColumns
+com.tsp.model.Stock ..> com.tsp.model.OneToMany
+com.tsp.model.Stock ..> com.tsp.model.OneToOne
+com.tsp.model.Stock ..> com.tsp.model.Table
+com.tsp.model.Stock ..> com.tsp.model.UniqueConstraint
+com.tsp.model.Stock ..> java.io.File
+com.tsp.model.Stock ..> java.io.FileNotFoundException
+com.tsp.model.Stock ..> java.io.FileReader
+com.tsp.model.Stock ..> java.io.IOException
+com.tsp.model.Stock ..> java.io.InputStream
+com.tsp.model.Stock ..> java.util.List
+com.tsp.model.Stock ..> java.util.Properties
+com.tsp.model.Stock ..> java.util.logging.Level
+com.tsp.model.Stock ..> java.util.logging.Logger
+com.tsp.model.User ..> com.tsp.model.Column
+com.tsp.model.User ..> com.tsp.model.Entity
+com.tsp.model.User ..> com.tsp.model.GeneratedValue
+com.tsp.model.User ..> com.tsp.model.Id
+com.tsp.model.User ..> com.tsp.model.Inheritance
+com.tsp.model.User ..> com.tsp.model.JoinColumn
+com.tsp.model.User ..> com.tsp.model.JoinTable
+com.tsp.model.User ..> com.tsp.model.ManyToMany
+com.tsp.model.User ..> com.tsp.model.Table
+com.tsp.model.User ..> com.tsp.model.Transient
+com.tsp.model.User ..> java.util.Set
+com.tsp.model.User ..> org.slf4j.Logger
+com.tsp.model.User ..> org.slf4j.LoggerFactory
+com.tsp.service.ClientServiceImpl ..> java.lang.Override
+com.tsp.service.ClientServiceImpl ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.service.ClientServiceImpl ..> org.springframework.stereotype.Service
+com.tsp.service.ClientServiceImpl ..> org.springframework.transaction.annotation.Transactional
+com.tsp.service.ClientServiceImpl ..> com.tsp.dao.ClientDao
+com.tsp.service.ClientServiceImpl ..> com.tsp.dao.DriverDao
+com.tsp.service.ClientServiceImpl ..> com.tsp.dao.PlaceDao
+com.tsp.service.ClientServiceImpl ..> com.tsp.model.Client
+com.tsp.service.ClientServiceImpl ..> com.tsp.model.Driver
+com.tsp.service.ClientServiceImpl ..> com.tsp.model.Role
+com.tsp.service.ClientServiceImpl ..> com.tsp.model.User
+com.tsp.service.ClientServiceImpl ..> java.util.HashSet
+com.tsp.service.ClientServiceImpl ..> java.util.Set
+com.tsp.service.ClientServiceImpl ..> org.slf4j.Logger
+com.tsp.service.ClientServiceImpl ..> org.slf4j.LoggerFactory
+com.tsp.service.ClientServiceImpl ..> org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+com.tsp.service.ClientServiceImpl ..> com.tsp.dao.RoleDao
+com.tsp.service.ClientServiceImpl ..> com.tsp.dao.UserDao
+com.tsp.service.ClientServiceImpl --|> com.tsp.service.ClientService
+com.tsp.service.DriverServiceImpl ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.service.DriverServiceImpl ..> org.springframework.stereotype.Service
+com.tsp.service.DriverServiceImpl ..> org.springframework.transaction.annotation.Transactional
+com.tsp.service.DriverServiceImpl ..> com.tsp.dao.ClientDao
+com.tsp.service.DriverServiceImpl ..> com.tsp.dao.DriverDao
+com.tsp.service.DriverServiceImpl ..> com.tsp.model.Client
+com.tsp.service.DriverServiceImpl ..> com.tsp.model.Driver
+com.tsp.service.DriverServiceImpl ..> com.tsp.model.Role
+com.tsp.service.DriverServiceImpl ..> com.tsp.model.User
+com.tsp.service.DriverServiceImpl ..> java.util.HashSet
+com.tsp.service.DriverServiceImpl ..> java.util.Set
+com.tsp.service.DriverServiceImpl ..> org.slf4j.Logger
+com.tsp.service.DriverServiceImpl ..> org.slf4j.LoggerFactory
+com.tsp.service.DriverServiceImpl ..> org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+com.tsp.service.DriverServiceImpl ..> com.tsp.dao.RoleDao
+com.tsp.service.DriverServiceImpl ..> com.tsp.dao.UserDao
+com.tsp.service.DriverServiceImpl --|> com.tsp.service.DriverService
+com.tsp.service.SecurityServiceImpl ..> java.lang.Override
+com.tsp.service.SecurityServiceImpl ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.service.SecurityServiceImpl ..> org.springframework.stereotype.Service
+com.tsp.service.SecurityServiceImpl ..> org.slf4j.Logger
+com.tsp.service.SecurityServiceImpl ..> org.slf4j.LoggerFactory
+com.tsp.service.SecurityServiceImpl ..> org.springframework.security.authentication.AuthenticationManager
+com.tsp.service.SecurityServiceImpl ..> org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+com.tsp.service.SecurityServiceImpl ..> org.springframework.security.core.context.SecurityContextHolder
+com.tsp.service.SecurityServiceImpl ..> org.springframework.security.core.userdetails.UserDetails
+com.tsp.service.SecurityServiceImpl --|> com.tsp.service.SecurityService
+com.tsp.service.SecurityServiceImpl ..> org.springframework.security.core.userdetails.UserDetailsService
+com.tsp.service.UserDetailsServiceImpl ..> java.lang.Override
+com.tsp.service.UserDetailsServiceImpl ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.service.UserDetailsServiceImpl ..> org.springframework.transaction.annotation.Transactional
+com.tsp.service.UserDetailsServiceImpl ..> com.tsp.dao.ClientDao
+com.tsp.service.UserDetailsServiceImpl ..> com.tsp.dao.DriverDao
+com.tsp.service.UserDetailsServiceImpl ..> com.tsp.model.Driver
+com.tsp.service.UserDetailsServiceImpl ..> com.tsp.model.Role
+com.tsp.service.UserDetailsServiceImpl ..> com.tsp.model.User
+com.tsp.service.UserDetailsServiceImpl ..> java.util.HashSet
+com.tsp.service.UserDetailsServiceImpl ..> java.util.Set
+com.tsp.service.UserDetailsServiceImpl ..> org.slf4j.Logger
+com.tsp.service.UserDetailsServiceImpl ..> org.slf4j.LoggerFactory
+com.tsp.service.UserDetailsServiceImpl ..> org.springframework.security.core.GrantedAuthority
+com.tsp.service.UserDetailsServiceImpl ..> org.springframework.security.core.authority.SimpleGrantedAuthority
+com.tsp.service.UserDetailsServiceImpl ..> org.springframework.security.core.userdetails.UserDetails
+com.tsp.service.UserDetailsServiceImpl ..> org.springframework.security.core.userdetails.UsernameNotFoundException
+com.tsp.service.UserDetailsServiceImpl ..> com.tsp.dao.UserDao
+com.tsp.service.UserDetailsServiceImpl --|> org.springframework.security.core.userdetails.UserDetailsService
+com.tsp.service.UserServiceImpl ..> java.lang.Override
+com.tsp.service.UserServiceImpl ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.service.UserServiceImpl ..> org.springframework.stereotype.Service
+com.tsp.service.UserServiceImpl ..> com.tsp.dao.ClientDao
+com.tsp.service.UserServiceImpl ..> com.tsp.dao.DriverDao
+com.tsp.service.UserServiceImpl ..> com.tsp.model.Client
+com.tsp.service.UserServiceImpl ..> com.tsp.model.Driver
+com.tsp.service.UserServiceImpl ..> com.tsp.model.Role
+com.tsp.service.UserServiceImpl ..> com.tsp.model.User
+com.tsp.service.UserServiceImpl ..> java.util.HashSet
+com.tsp.service.UserServiceImpl ..> java.util.Set
+com.tsp.service.UserServiceImpl ..> org.slf4j.Logger
+com.tsp.service.UserServiceImpl ..> org.slf4j.LoggerFactory
+com.tsp.service.UserServiceImpl ..> org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+com.tsp.service.UserServiceImpl ..> com.tsp.dao.RoleDao
+com.tsp.service.UserServiceImpl ..> com.tsp.dao.UserDao
+com.tsp.service.UserServiceImpl --|> com.tsp.service.UserService
+com.tsp.validator.UserValidator ..> java.lang.Override
+com.tsp.validator.UserValidator ..> org.springframework.beans.factory.annotation.Autowired
+com.tsp.validator.UserValidator ..> org.springframework.stereotype.Component
+com.tsp.validator.UserValidator ..> com.tsp.controllers.UserController
+com.tsp.validator.UserValidator ..> com.tsp.model.Client
+com.tsp.validator.UserValidator ..> com.tsp.model.User
+com.tsp.validator.UserValidator ..> org.slf4j.Logger
+com.tsp.validator.UserValidator ..> org.slf4j.LoggerFactory
+com.tsp.validator.UserValidator ..> org.springframework.validation.Errors
+com.tsp.validator.UserValidator ..> org.springframework.validation.ValidationUtils
+com.tsp.validator.UserValidator ..> com.tsp.service.ClientService
+com.tsp.validator.UserValidator ..> com.tsp.service.DriverService
+com.tsp.validator.UserValidator ..> com.tsp.service.UserService
+com.tsp.validator.UserValidator --|> org.springframework.validation.Validator
+com.tsp.dao.RoleDao ..> com.tsp.model.Role
+com.tsp.dao.RoleDao --|> org.springframework.data.jpa.repository.JpaRepository
+com.tsp.dao.UserDao ..> com.tsp.model.User
+com.tsp.dao.UserDao --|> org.springframework.data.jpa.repository.JpaRepository
+com.tsp.service.ClientService ..> org.springframework.transaction.annotation.Transactional
+com.tsp.service.ClientService ..> com.tsp.model.Client
+com.tsp.service.DriverService ..> com.tsp.model.Driver
+com.tsp.service.UserService ..> com.tsp.model.Role
+com.tsp.service.UserService ..> com.tsp.model.User
+com.tsp.service.UserService ..> java.util.Set
+@enduml

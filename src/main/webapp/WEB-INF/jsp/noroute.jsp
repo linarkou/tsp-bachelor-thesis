@@ -9,8 +9,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    
-    <title>Мои маршруты</title>
+
+    <title>Текущий маршрут</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
@@ -35,8 +35,8 @@
                 <li><a href="${contextPath}/admin/createroute">Создать маршрут</a></li>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_DRIVER\")}">
-                <li><a href="${contextPath}/driver/currentRoute">Текущий маршрут</a></li>
-                <li><a href="${contextPath}/driver/routes" class="current">Мои маршруты</a></li>
+                <li><a href="${contextPath}/driver/currentRoute" class="current">Текущий маршрут</a></li>
+                <li><a href="${contextPath}/driver/routes">Мои маршруты</a></li>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_CLIENT\")}">
                 <li><a href="${contextPath}/client/orders">Мои заказы</a></li>
@@ -46,32 +46,8 @@
         </ul>
         </nav>
     </c:if>
-    
-    <h4>Маршруты ${username}:</h4>
-    <table><tbody>
-        <tr>
-            <th>№</th>
-            <th>Дата</th>
-            <th>Статус</th>
-            <th>Посмотреть маршрут</th>
-        </tr>
-        <c:forEach var="x" items="${routes}">
-            <tr>
-                <td>${x.id}</td>
-                <td>${x.date}</td>
-                <td>${x.completed ? "Выполнен" : "Не выполнен"}</td>
-                <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_DRIVER\")}">
-                    <td><a href="${contextPath}/driver/routes/show?id=${x.id}">Просмотреть</a></td>
-                </c:if>
-                <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_ADMIN\")}">
-                    <td><a href="${contextPath}/admin/drivers/routes/showroute?id=${x.id}">Просмотреть</a></td>
-                    <c:if test="${!x.completed}">
-                        <td><a href="${contextPath}/admin/drivers/routes/complete?id=${x.id}">Отметить выполненным</a></td>
-                    </c:if>
-                </c:if>
-            </tr>
-        </c:forEach>
-    <tbody></table>
+        
+        <br>Маршрут на сегодняшний день отсутствует. Обратитесь к администратору.
         
 
 </div>

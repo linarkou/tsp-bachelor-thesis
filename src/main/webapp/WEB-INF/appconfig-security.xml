@@ -10,7 +10,8 @@
     <http auto-config="true">
         <intercept-url pattern="/" access="hasAnyRole('ROLE_DRIVER', 'ROLE_ADMIN', 'ROLE_CLIENT')"/>
         <intercept-url pattern="/welcome" access="hasAnyRole('ROLE_DRIVER', 'ROLE_ADMIN', 'ROLE_CLIENT')"/>
-        <intercept-url pattern="/route" access="hasAnyRole('ROLE_DRIVER', 'ROLE_ADMIN')"/>
+        <intercept-url pattern="/driver/registration" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/driver/**" access="hasRole('ROLE_DRIVER')"/>
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
 
         <form-login login-page="/login" default-target-url="/welcome" authentication-failure-url="/login?error"

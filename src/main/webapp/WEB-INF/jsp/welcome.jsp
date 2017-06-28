@@ -28,14 +28,15 @@
         <ul>
             <li><a href="${contextPath}/welcome" class="current">Добро пожаловать</a></li>
             <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_ADMIN\")}">
-                <li><a href="${contextPath}/admin/stocks">Склады</a></li>
+                <li><a href="${contextPath}/admin/stocks">Пункты производства</a></li>
                 <li><a href="${contextPath}/admin/drivers">Водители</a></li>
-                <li><a href="${contextPath}/admin/clients">Клиенты</a></li>
+                <!--<li><a href="${contextPath}/admin/clients">Клиенты</a></li>-->
                 <li><a href="${contextPath}/admin/orders">Заказы</a></li>
+                <li><a href="${contextPath}/admin/createroute">Создать маршрут</a></li>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_DRIVER\")}">
                 <li><a href="${contextPath}/driver/currentRoute">Текущий маршрут</a></li>
-                <li><a href="${contextPath}/driver/routes">Законченные маршруты</a></li>
+                <li><a href="${contextPath}/driver/routes">Мои маршруты</a></li>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.authorities.toString().contains(\"ROLE_CLIENT\")}">
                 <li><a href="${contextPath}/client/orders">Мои заказы</a></li>

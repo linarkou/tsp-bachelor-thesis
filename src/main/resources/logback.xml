@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <property name="DEV_HOME" value="/usr/local/var/log/tomcat" />
+    
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
                 <Pattern>
@@ -7,13 +9,25 @@
                 </Pattern>
         </layout>
      </appender>
- 
-     <root level="debug">
-         <appender-ref ref="stdout"/>
+     
+     <appender name="FILE-AUDIT"
+		class="ch.qos.logback.core.FileAppender">
+		<file>${DEV_HOME}/info.log</file>
+                <append>true</append>
+                <immediateFlush>true</immediateFlush>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} - %msg%n
+			</Pattern>
+		</encoder>
+     </appender>
+     
+     <root name="com.tsp" level="all">
+        <appender-ref ref="stdout"/>
+	<appender-ref ref="FILE-AUDIT" />
      </root>
-     <logger name="com.tsp" level="DEBUG"/>
-     <logger name="org.springframework.web" level="DEBUG"/>
+     <!--<logger name="org.springframework.web" level="DEBUG"/>
      <logger name="org.hibernate.tool.hbm2ddl" level="DEBUG"/>
-     <logger name="org.hibernate.SQL" level="DEBUG"/>
+     <logger name="org.hibernate.SQL" level="DEBUG"/>-->
 
 </configuration>
