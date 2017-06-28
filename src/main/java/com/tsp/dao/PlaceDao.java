@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,52 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Linar Abzaltdinov
  */
-@Repository
-@Transactional
-public class PlaceDao
+
+public interface PlaceDao extends JpaRepository<Place, LatLng>
 {
-    Logger log = LoggerFactory.getLogger(PlaceDao.class);
-    
-    @PersistenceContext
-    EntityManager em;
-    
-    public PlaceDao()
-    {
-    }
-    
-    public void save(Place p)
-    {
-        em.persist(p);
-    }
-    
-    public Place findPlaceById(LatLng ll)
-    {
-        return em.find(Place.class, ll);
-    }
-    
-    public Place addNewPlace(String address)
-    {
-        Map.Entry<String, LatLng> geocode = Geocoder.geocode(address);
-        if (geocode.getKey()=="")
-            return null;
-        Place foundPlace = findPlaceById(geocode.getValue());
-        if (foundPlace != null)
-            return foundPlace;
-        Place p = new Place(geocode.getKey(), geocode.getValue());
-        try {
-            em.persist(p);
-        } catch (Exception ex)
-        {
-            return null;
-        }
-        return p;
-    }
-    
-    public List<Place> getAllPlaces()
-    {
-        List<Place> resultList = em.createQuery("select p from Place p", Place.class).getResultList();
-        return resultList;
-    }
-    
-    
 }
