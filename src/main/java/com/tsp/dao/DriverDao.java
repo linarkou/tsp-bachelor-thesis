@@ -43,7 +43,7 @@ public class DriverDao
     
     public List<Route> getRoutesByDriver(Driver dr)
     {
-        return dr.getRoutes();
+        return em.createQuery("select r FROM Driver d LEFT JOIN d.routes r where d.id = :id", Route.class).setParameter("id", dr.getId()).getResultList();
     }
     
     public List<Driver> getAllDrivers()

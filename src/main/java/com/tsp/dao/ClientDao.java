@@ -18,6 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * NOT USED
+ * 
+ * @author Linar Abzaltdinov
+ */
+
 @Repository
 @Transactional
 public class ClientDao
