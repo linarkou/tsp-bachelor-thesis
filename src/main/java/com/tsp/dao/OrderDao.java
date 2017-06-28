@@ -1,6 +1,7 @@
 package com.tsp.dao;
 
 import com.tsp.model.*;
+import com.tsp.service.PlaceService;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -30,12 +31,16 @@ public class OrderDao
     ClientDao clientDao;
     
     @Autowired
-    PlaceDao placeDao;
+    PlaceService placeSerivce;
+    
+    @Autowired
+    StockDao stockDao;
     
     public OrderDao()
     {
     }
     
+    @Transactional
     public void cancelOrder(Long id)
     {
         Order found = findById(id);
@@ -43,22 +48,19 @@ public class OrderDao
             found.cancel();
     }
     
-    public Order addNewOrder(String address, LocalDate date, String description)
+    public List<Order> findUntakenOrdersByDateForDriver(LocalDate date, Driver dr)
     {
-        Place place = placeDao.addNewPlace(address);
-        Order order = new Order(place, date, description);
-        this.save(order);
-        return order;
-    }
-    
-    public List<Order> findUntakenOrdersByDate(LocalDate date)
-    {
-        return em.createQuery("select c from Order c where date = :date AND inRoute = FALSE",Order.class).setParameter("date", date).getResultList();
+        Stock stock = dr.getStock();
+        return em.createQuery("select o from Stock s LEFT JOIN s.orders o where s = :stock AND o.date = :date AND o.inRoute = FALSE",Order.class)
+                .setParameter("date", date)
+                .setParameter("stock", stock)
+                .getResultList();
     }
     
     public List<Order> findAllOrders()
     {
-        return em.createQuery("select c from Order c order by id",Order.class).getResultList();
+        return em.createQuery("select c from Order c order by c.id",Order.class)
+                .getResultList();
     }
     
     public void save(Order order)
