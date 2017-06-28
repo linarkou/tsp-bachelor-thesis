@@ -7,6 +7,7 @@ package com.tsp.dao;
 
 import com.tsp.model.Place;
 import com.tsp.model.Stock;
+import com.tsp.service.PlaceService;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -33,7 +34,7 @@ public class StockDao
     EntityManager em;
     
     @Autowired
-    PlaceDao placeDao;
+    PlaceService placeService;
     
     public StockDao()
     {
@@ -59,16 +60,21 @@ public class StockDao
     public Stock addNewStock(String address)
     {
         Stock s = null;
-        Place place = placeDao.addNewPlace(address);
-        if (place == null)
-            return null;
+        Place place = placeService.addNewPlace(address);
+        return addNewStock(place);
+    }
+    
+    @Transactional
+    public Stock addNewStock(Place place)
+    {
         Stock found = findStockByPlace(place);
         if (found != null)
             return found;
-        s = new Stock(place);
+        Stock s = new Stock(place);
         em.persist(s);
         return s;
     }
+    
     public List<Stock> getAllStocks()
     {
         List<Stock> resultList = em.createQuery("select s from Stock s order by id", Stock.class).getResultList();
