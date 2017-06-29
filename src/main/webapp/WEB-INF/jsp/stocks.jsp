@@ -12,6 +12,7 @@
 
     <title>Пункты производства</title><title>Пункты производства</title>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
 </head>
@@ -48,11 +49,41 @@
     </c:if>
     
         
-    <br> 
-    <form method="post" action="${contextPath}/admin/stocks/add"> 
+    <br>
+    <script type="text/javascript">
+        function add(){
+            $.ajax({
+                    url: '${contextPath}/admin/stocks/add',
+                    type: 'POST',
+                    dataType: 'json',
+                    headers: {'${_csrf.headerName}' : '${_csrf.token}'},
+                    data: {
+                        address : $("#address").val()
+                    }, 
+                    success: function(data){
+                        alert(data);
+                        $('#stockTable tr:last').after('<tr id="row'+data.id+'"><td>'+data.id+'</td><td>'+data.place.address+'</td><td><a href="#" onclick="remove('+data.id+')">Удалить</a></td></tr>');
+                    }
+		});
+
+        }
+        function remove(id){
+            $.ajax({
+                    url: '${contextPath}/admin/stocks/'+id,
+                    type: 'DELETE',
+                    headers: {'${_csrf.headerName}' : '${_csrf.token}'},
+                    success: function(data){
+                        alert(data);
+                        $('#row'+id).remove();
+                    }
+		});
+
+        }
+    </script>
+    <form method="post"> 
         <input type="text" id="address" name="address" placeholder="Адрес" size="100" />
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        <input type="submit" value="Добавить склад"/> 
+        <input type="button" value="Добавить склад" onclick="add()"/> 
         <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@17.5.0/dist/css/suggestions.min.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <!--[if lt IE 10]>
@@ -73,23 +104,22 @@
     </form>
 
     <h4>Пункты производства</h4>
-    <table class="to-delete"><tbody>
+    <table id="stockTable"  class="to-delete"><tbody>
         <tr>
             <th>№</th>
             <th>Адрес </th>
             <th>Удалить</th>
         </tr>
         <c:forEach var="x" items="${stocks}">
-            <tr>
+            <tr id="row${x.id}">
                 <td>${x.id}</td>
                 <td>${x.place.address}</td>
-                <td><a href="${contextPath}/admin/stocks/remove?id=${x.id}">Удалить</a></td>
+                <td><a href="#" onclick="remove(${x.id})">Удалить</a></td>
             </tr>
         </c:forEach>
-    <tbody></table>
+    </tbody></table>
 
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>
