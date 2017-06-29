@@ -10,6 +10,7 @@ import com.tsp.dao.DriverDao;
 import com.tsp.dao.RouteDao;
 import com.tsp.model.Driver;
 import com.tsp.model.Route;
+import com.tsp.service.DriverService;
 import com.tsp.service.OrderService;
 import com.tsp.service.RouteService;
 import java.security.Principal;
@@ -39,7 +40,7 @@ public class DriverController
     RouteService routeSerivce;
     
     @Autowired
-    DriverDao driverDao;
+    DriverService driverDao;
     
     @Autowired
     OrderService orderSerivce;
