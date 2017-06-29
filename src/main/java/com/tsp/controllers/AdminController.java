@@ -22,24 +22,8 @@ import com.tsp.service.DriverService;
 import com.tsp.service.OrderService;
 import com.tsp.service.PlaceService;
 import com.tsp.service.RouteService;
-import com.tsp.solver.Solver;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.Principal;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import javax.annotation.security.RolesAllowed;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -49,12 +33,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -104,20 +86,21 @@ public class AdminController {
         mv.addObject("stocks", allStocks);
         return mv;
     }
-    
-    @RequestMapping(method = RequestMethod.POST, value="/stocks/add")
-    String addStock(@RequestParam("address") String address) 
-    {
-        stockDao.addNewStock(address);
-        return "redirect:/admin/stocks";
-    }
-    
-    @RequestMapping(method = RequestMethod.GET, value="/stocks/remove")
-    String removeStock(@RequestParam("id") Long id) 
-    {
-        stockDao.removeStockById(id);
-        return "redirect:/admin/stocks";
-    }
+ 
+//    THIS METHODS MOVED TO StockRestController    
+//    @RequestMapping(method = RequestMethod.POST, value="/stocks/add")
+//    String addStock(@RequestParam("address") String address) 
+//    {
+//        stockDao.addNewStock(address);
+//        return "redirect:/admin/stocks";
+//    }
+//    
+//    @RequestMapping(method = RequestMethod.GET, value="/stocks/remove")
+//    String removeStock(@RequestParam("id") Long id) 
+//    {
+//        stockDao.removeStockById(id);
+//        return "redirect:/admin/stocks";
+//    }
     
     @RequestMapping(value="/drivers")
     ModelAndView drivers() 
