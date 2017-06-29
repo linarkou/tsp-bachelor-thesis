@@ -34,13 +34,17 @@ public class PlaceService
         
         try {
             //return existing entity
-            return placeDao.findOne(geocode.getValue());
+            Place found = placeDao.findOne(geocode.getValue());
+            if (found == null)
+            {
+                Place p = new Place(geocode.getKey(), geocode.getValue());
+                p = placeDao.save(p);
+                return p;
+            } else
+                return found;
         } catch (IllegalArgumentException iae)
         {
-            //create new entity
-            Place p = new Place(geocode.getKey(), geocode.getValue());
-            p = placeDao.save(p);
-            return p;
+            return null;
         }
     }
     

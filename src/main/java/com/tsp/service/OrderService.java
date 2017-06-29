@@ -43,6 +43,7 @@ public class OrderService
         return addNewOrder(place, date, description);
     }
     
+    @Transactional
     public Order addNewOrder(Place place, LocalDate date, String description)
     {
         Order order = new Order(place, date, description);
