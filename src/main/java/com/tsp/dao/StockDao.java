@@ -61,6 +61,7 @@ public class StockDao
     {
         Stock s = null;
         Place place = placeService.addNewPlace(address);
+        log.info(place.toString());
         return addNewStock(place);
     }
     
