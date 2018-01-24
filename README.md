@@ -33,4 +33,14 @@ Test dataset taken from [TSPLIB](https://www.iwr.uni-heidelberg.de/groups/comopt
 
 Finally, I choosed a modification of algorithm with **bold** parameters.
 ## Technical info
-This is Web project with back-end on Java and front-end on JSP (HTML+CSS).
+This is the Web project with back-end on Java and front-end on JSP (HTML+CSS).
+### Technology stack
+- Java
+- Spring Framework (Web MVC, Data, Security)
+- Hibernate ORM
+- MySQL
+### Map services
+- Yandex.Maps (display routes on maps)
+- Yandex.Geocoder (get coordinates by address)
+- Mapbox Matrix Service (get time/distance between points)
+- Prompting API by DaData.ru (prompt addresses)
